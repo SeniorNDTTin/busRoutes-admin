@@ -1,0 +1,10 @@
+.box-head {
+  margin: 30px 0;
+  text-align: center;
+}
+
+.box-head .title {
+  color: green;
+  font-weight: bold;
+  font-size: 48px;
+}

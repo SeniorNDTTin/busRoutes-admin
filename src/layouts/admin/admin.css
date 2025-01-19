@@ -1,0 +1,11 @@
+.layout-admin {
+  display: flex;
+}
+
+.layout-admin .layout-right {
+  flex: 1;
+}
+
+.layout-admin .layout-right .main {
+  padding: 60px 30px;
+}
