@@ -85,7 +85,7 @@ function SongList() {
 
   return (
     <>
-      <BoxHead title="Danh Sách Bài Hát" />
+      <BoxHead title="Danh Sách Địa Chỉ" />
 
       <BoxNavigateCreate />
 
