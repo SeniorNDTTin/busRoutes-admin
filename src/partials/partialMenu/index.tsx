@@ -19,8 +19,18 @@ const items: MenuItem[] = [
     icon: <MdDashboard />
   },
   {
-    key: `/${admin}/addresses`,
-    label: "Địa Chỉ",
+    key: `/${admin}/districts`,
+    label: "Quận/Huyện",
+    icon: <CiLocationArrow1 />
+  },
+  {
+    key: `/${admin}/wards`,
+    label: "Xã/Phường",
+    icon: <CiLocationArrow1 />
+  },
+  {
+    key: `/${admin}/streets`,
+    label: "Đường",
     icon: <CiLocationArrow1 />
   }
 ];

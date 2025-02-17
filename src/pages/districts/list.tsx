@@ -7,20 +7,20 @@ import ButtonNavigateDetail from "../../components/buttonNavigateDetail";
 import ButtonNavigateUpdate from "../../components/buttonNavigateUpdate";
 import BoxNavigateCreate from "../../components/boxNavigateCreate";
 
-import IAddress from "../../interfaces/address";
+import IDistrict from "../../interfaces/district";
 
-import addressService from "../../services/address..service";
+import districtService from "../../services/district.service";
 import { toast } from "react-toastify";
 
-function SongList() {
+function DistrictList() {
   const [reload, setReload] = useState(false);
 
-  const [addresses, setAddresses] = useState<IAddress[]>([]);
+  const [districts, setDistricts] = useState<IDistrict[]>([]);
 
   useEffect(() => {
     const fetchApi = async () => {
-      const addresses = (await addressService.get()).data;
-      setAddresses(addresses);
+      const districts = (await districtService.get()).data;
+      setDistricts(districts);
     }
     fetchApi();
   }, [reload]);
@@ -31,7 +31,7 @@ function SongList() {
 
   const handleDel = async (id: string) => {
     if (confirm("Bạn chắc chứ?")) {
-      const response = await addressService.del(id);
+      const response = await districtService.del(id);
 
       if (response.code !== 200) {
         toast.error("Có lỗi xảy ra!");
@@ -43,7 +43,7 @@ function SongList() {
     }
   }
 
-  const columns: TableProps<IAddress>["columns"] = [
+  const columns: TableProps<IDistrict>["columns"] = [
     {
       title: "STT",
       dataIndex: "orderNumber",
@@ -51,19 +51,9 @@ function SongList() {
       render: (_, __, index: number) => <Button>{index + 1}</Button>
     },
     {
-      title: "Tên đường",
-      dataIndex: "street",
-      key: "street"
-    },
-    {
-      title: "Phường",
-      dataIndex: "street",
-      key: "street"
-    },
-    {
-      title: "Quận",
-      dataIndex: "district",
-      key: "district"
+      title: "Tên",
+      dataIndex: "name",
+      key: "name"
     },
     {
       title: "Hành động",
@@ -85,13 +75,13 @@ function SongList() {
 
   return (
     <>
-      <BoxHead title="Danh Sách Địa Chỉ" />
+      <BoxHead title="Danh Sách Quận/Huyện" />
 
       <BoxNavigateCreate />
 
-      <Table dataSource={addresses} columns={columns} />
+      <Table dataSource={districts} columns={columns} />
     </>
   );
 }
 
-export default SongList;
+export default DistrictList;

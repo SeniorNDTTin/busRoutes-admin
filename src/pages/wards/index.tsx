@@ -1,9 +1,9 @@
 import { Outlet } from "react-router-dom";
 
-function Address() {
+function Ward() {
   return (
     <Outlet />
   );
 }
 
-export default Address;
+export default Ward;
