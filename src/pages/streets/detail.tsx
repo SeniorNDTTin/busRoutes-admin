@@ -6,17 +6,21 @@ import BoxHead from "../../components/boxHead";
 import BoxInput from "../../components/boxInput";
 import BoxSelect from "../../components/boxSelect";
 
+import IWard from "../../interfaces/ward";
 import IDistrict from "../../interfaces/district";
 
+import streetService from "../../services/street.service";
 import wardService from "../../services/ward.service";
 import districtService from "../../services/district.service";
 
-function WardDetail() {
+function StreetDetail() {
   const { id } = useParams();
 
   const [name, setname] = useState("");
   const [districts, setDistricts] = useState<IDistrict[]>([]);
+  const [wards, setWards] = useState<IWard[]>([]);
   const [districtId, setDistrictId] = useState("");
+  const [wardId, setWardId] = useState("");
 
   useEffect(() => {
     const fetchApi = async () => {
@@ -28,9 +32,20 @@ function WardDetail() {
 
   useEffect(() => {
     const fetchApi = async () => {
-      const ward = (await wardService.getById(id as string)).data;
+      const wards = (await wardService.get()).data;
+      setWards(wards);
+    }
+    fetchApi();
+  }, []);
 
-      setname(ward.name);
+  useEffect(() => {
+    const fetchApi = async () => {
+      const street = (await streetService.getById(id as string)).data;
+
+      setname(street.name);
+      setWardId(street.wardId);
+
+      const ward = (await wardService.getById(street.wardId)).data;
       setDistrictId(ward.districtId);
     }
     fetchApi();
@@ -40,9 +55,18 @@ function WardDetail() {
     <>
       <GoBack />
 
-      <BoxHead title="Chi Tiết Xã/Phường" />
+      <BoxHead title="Chi Tiết Đường" />
 
       <BoxInput label="Tên" value={name} onChange={() => { }} />
+
+      {wards.length && (
+        <BoxSelect
+          value={wardId}
+          label="Xã/Phường"
+          options={wards.map(item => ({ value: item._id, label: item.name }))}
+          onChange={() => { }}
+        />
+      )}
 
       {districts.length && (
         <BoxSelect
@@ -56,4 +80,4 @@ function WardDetail() {
   );
 }
 
-export default WardDetail;
+export default StreetDetail;

@@ -76,7 +76,7 @@ function WardList() {
 
   return (
     <>
-      <BoxHead title="Danh Sách Quận/Huyện" />
+      <BoxHead title="Danh Sách Xã/Phường" />
 
       <BoxNavigateCreate />
 
