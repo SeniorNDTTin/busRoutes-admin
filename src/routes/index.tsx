@@ -9,23 +9,33 @@ import LayoutAdmin from "../layouts/admin";
 
 import Dashboard from "../pages/dashboard";
 
+// Addresses
 import District from "../pages/districts";
 import DistrictList from "../pages/districts/list";
 import DistrictCreate from "../pages/districts/create";
 import DistrictUpdate from "../pages/districts/update";
 import DistrictDetail from "../pages/districts/detail";
 
+// Wards
 import Ward from "../pages/wards";
 import WardList from "../pages/wards/list";
 import WardCreate from "../pages/wards/create";
 import WardUpdate from "../pages/wards/update";
 import WardDetail from "../pages/wards/detail";
 
+// Streets
 import Street from "../pages/streets";
 import StreetList from "../pages/streets/list";
 import StreetCreate from "../pages/streets/create";
 import StreetUpdate from "../pages/streets/update";
 import StreetDetail from "../pages/streets/detail";
+
+// Bus Routes
+import Bus from "../pages/buses";
+import BusList from "../pages/buses/list";
+import BusCreate from "../pages/buses/create";
+import BusUpdate from "../pages/buses/update";
+import BusDetail from "../pages/buses/detail";
 
 function AppRoutes() {
   const admin = configs.prefixAdmin;
@@ -42,7 +52,7 @@ function AppRoutes() {
             <Route path="dashboard" element={<Dashboard />} />
 
             {/* Addresses */}
-            <Route path="districts" element={<District />} >
+            <Route path="districts" element={<District />}>
               <Route path="" element={<DistrictList />} />
               <Route path="detail/:id" element={<DistrictDetail />} />
               <Route path="create" element={<DistrictCreate />} />
@@ -50,7 +60,7 @@ function AppRoutes() {
             </Route>
 
             {/* Wards */}
-            <Route path="wards" element={<Ward />} >
+            <Route path="wards" element={<Ward />}>
               <Route path="" element={<WardList />} />
               <Route path="detail/:id" element={<WardDetail />} />
               <Route path="create" element={<WardCreate />} />
@@ -58,12 +68,21 @@ function AppRoutes() {
             </Route>
 
             {/* Streets */}
-            <Route path="streets" element={<Street />} >
+            <Route path="streets" element={<Street />}>
               <Route path="" element={<StreetList />} />
               <Route path="detail/:id" element={<StreetDetail />} />
               <Route path="create" element={<StreetCreate />} />
               <Route path="update/:id" element={<StreetUpdate />} />
             </Route>
+
+            {/* Bus Routes */}
+            <Route path="buses" element={<Bus />}>
+              <Route path="" element={<BusList />} />
+              <Route path="detail/:id" element={<BusDetail />} />
+              <Route path="create" element={<BusCreate />} />
+              <Route path="update/:id" element={<BusUpdate />} />
+            </Route>
+
           </Route>
         </Routes>
       </BrowserRouter>
