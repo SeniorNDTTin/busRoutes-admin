@@ -1,0 +1,129 @@
+
+.tool{ 
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    .add_busRoutes {
+        background-color: rgb(25, 199, 115) !important;
+        color: white !important;
+        font-weight: 600;
+
+    }
+
+    .form_search {
+        margin-bottom: 0 !important; 
+        width: 30% !important;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        .search_icon_wrapper{
+            width: 100% !important;
+            display: flex !important;
+            flex-direction: row;
+            justify-content: space-between;
+            align-items: center;
+            height: 90% !important;
+                .search_input{
+                    width: 80% ;
+                    height: 80% !important;
+                }
+                .search_input input{
+                    width: 100%;
+                    height: 100%;
+                
+                }
+                .search_icon{
+                    height: 80%;
+                }
+                .search_icon div {
+                    height: 100%;
+                    .search_icon_button {
+                        height: 100% !important;
+                        background-color: white !important;
+                        border-color: rgb(0, 0, 0) !important;
+                    }
+                    .search_icon_button:hover{
+                    background-color: rgb(238, 238, 238) !important;
+                    }
+
+                    //search_button
+                    .search_button{
+                        transition: transform 0.3s ease ;
+                    }
+
+                    .search_button:hover{
+                       transform: scale(1.1);
+                    }
+                }
+        }
+    }
+
+ 
+}  
+
+.list_busRoutes{
+    margin-top: 1rem;
+    // border: 2px solid black;
+    padding: 5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 3rem;
+    width: 100%;
+
+    .busRoute{
+        // background-color: #2a333c;
+        background-color: #fdfdfd;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3); /* Bóng đổ nhẹ */
+        border-radius: 4px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        width: 100%;
+       
+        .busInfo{
+            width: 48%;
+            display: flex;
+            align-items: center;
+            // justify-content: center !important;
+            padding: 1rem;
+            flex-direction: row;
+            gap: 3rem;
+            
+            .stt{
+                margin-left: 0.5rem;
+            }     
+        }
+        
+        .busTool{
+            width: 23%;
+            // background-color: beige;
+            padding: 1rem;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: row;
+            gap: 1.5rem;
+            .details{
+                background-color: rgb(194, 219, 240);
+            }
+            .details:hover{
+                background-color: rgb(165, 198, 226);
+
+            }
+        }
+    }
+
+    .pagination{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    
+}
+
+.data{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}

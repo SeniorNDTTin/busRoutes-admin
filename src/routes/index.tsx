@@ -27,6 +27,11 @@ import StreetCreate from "../pages/streets/create";
 import StreetUpdate from "../pages/streets/update";
 import StreetDetail from "../pages/streets/detail";
 
+import BusRoutePage from "../pages/busRoutes/updateInformation";
+import BusRouteCreate from "../pages/busRoutes/updateInformation/create";
+import BusRouteDetail from "../pages/busRoutes/updateInformation/detail";
+import BusRouteUpdate from "../pages/busRoutes/updateInformation/update";
+
 function AppRoutes() {
   const admin = configs.prefixAdmin;
 
@@ -64,7 +69,19 @@ function AppRoutes() {
               <Route path="create" element={<StreetCreate />} />
               <Route path="update/:id" element={<StreetUpdate />} />
             </Route>
+
+              {/* BusRoutes */}
+            <Route path = "busRoutes" >
+                {/* <Route path="show-network" element={< />} > */}
+                <Route path="update-information" element={<BusRoutePage />} >
+                    <Route path="create" element={<BusRouteCreate />} />
+                    <Route path="detail/:id" element={<BusRouteDetail />} />
+                    <Route path="update/:id" element={<BusRouteUpdate />} />
+                </Route>
+            </Route>
+            
           </Route>
+
         </Routes>
       </BrowserRouter>
     </>

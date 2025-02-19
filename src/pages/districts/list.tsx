@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 
-import { Button, Space, Table, TableProps } from "antd";
+import { Button, Space, Table, TableProps,Pagination } from "antd";
 
 import BoxHead from "../../components/boxHead";
 import ButtonNavigateDetail from "../../components/buttonNavigateDetail";

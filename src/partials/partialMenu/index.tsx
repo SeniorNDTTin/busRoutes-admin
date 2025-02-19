@@ -1,7 +1,9 @@
 import { useNavigate } from 'react-router-dom';
 
 import { MdDashboard } from "react-icons/md";
-import { CiLocationArrow1 } from "react-icons/ci";
+import { CiLocationArrow1} from "react-icons/ci";
+
+import {FullscreenOutlined} from "@ant-design/icons"
 
 import type { MenuProps } from 'antd';
 import { Menu } from 'antd';
@@ -32,6 +34,15 @@ const items: MenuItem[] = [
     key: `/${admin}/streets`,
     label: "Đường",
     icon: <CiLocationArrow1 />
+  },
+  {
+    key: `/${admin}/busRoutes`,
+    label: "Quản lý các tuyến",
+    icon: <FullscreenOutlined />,
+    children: [
+      { key: `/${admin}/busRoutes/show-network`, label: 'Hiển thị mạng lưới' },
+      { key: `/${admin}/busRoutes/update-information`, label: 'Cập nhật thông tin' },
+    ],
   }
 ];
 
