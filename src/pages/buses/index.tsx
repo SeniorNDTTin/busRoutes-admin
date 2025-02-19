@@ -1,9 +1,9 @@
 import { Outlet } from "react-router-dom";
 
-function District() {
+function Bus() {
   return (
     <Outlet />
   );
 }
 
-export default District;
+export default Bus;

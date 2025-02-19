@@ -3,17 +3,18 @@ const { Title } = Typography;
 
 import "./boxInput.css";
 
-interface props {
+interface Props {
   label: string;
-  value: string;
-  onChange: React.ChangeEventHandler<HTMLInputElement>
+  value: string | number; 
+  onChange: React.ChangeEventHandler<HTMLInputElement>;
+  type?: string; 
 }
 
-function BoxInput({ label, value, onChange }: props) {
+function BoxInput({ label, value, onChange, type = "text" }: Props) { 
   return (
     <div className="box-input">
       <Title level={5}>{label}</Title>
-      <Input value={value} onChange={onChange} />
+      <Input type={type} value={value} onChange={onChange} />
     </div>
   );
 }

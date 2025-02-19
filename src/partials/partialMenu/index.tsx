@@ -1,4 +1,4 @@
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 
 import { MdDashboard } from "react-icons/md";
 import { CiLocationArrow1 } from "react-icons/ci";
@@ -34,28 +34,36 @@ const items: MenuItem[] = [
     icon: <CiLocationArrow1 />
   },
   {
+    key: `/${admin}/buses`,
+    label: "Xe Bus",
+    icon: <CiLocationArrow1 />
+  },
+  {
+    key: `/${admin}/directions`,
+    label: "Tuyến Đường",
+    icon: <CiLocationArrow1 />
+  },
+  {
     key: `/${admin}/bus-stops`,
     label: "Trạm Dừng",
     icon: <CiLocationArrow1 />
   }
 ];
 
-function PartialMenu() {
-  const pathName = window.location.pathname;
 
+function PartialMenu() {
   const navigate = useNavigate();
+  const location = useLocation(); // Lấy URL hiện tại
 
   const handleNavigate: MenuProps['onClick'] = (e) => {
-    const key = e.key;
-    navigate(key);
+    navigate(e.key);
   };
 
   return (
     <Menu
       onClick={handleNavigate}
       style={{ width: 256 }}
-      defaultSelectedKeys={[pathName]}
-      defaultOpenKeys={[pathName]}
+      selectedKeys={[location.pathname]} // Cập nhật khi thay đổi đường dẫn
       mode="inline"
       items={items}
     />
