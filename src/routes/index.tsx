@@ -37,6 +37,14 @@ import BusCreate from "../pages/buses/create";
 import BusUpdate from "../pages/buses/update";
 import BusDetail from "../pages/buses/detail";
 
+// Directions
+import Direction from "../pages/directions";
+import DirectionList from "../pages/directions/list";
+import DirectionCreate from "../pages/directions/create";
+import DirectionUpdate from "../pages/directions/update";
+import DirectionDetail from "../pages/directions/detail";
+
+
 function AppRoutes() {
   const admin = configs.prefixAdmin;
 
@@ -81,6 +89,14 @@ function AppRoutes() {
               <Route path="detail/:id" element={<BusDetail />} />
               <Route path="create" element={<BusCreate />} />
               <Route path="update/:id" element={<BusUpdate />} />
+            </Route>
+            
+            {/* Directions */}
+            <Route path="directions" element={<Direction />}>
+              <Route path="" element={<DirectionList />} />
+              <Route path="detail/:id" element={<DirectionDetail />} />
+              <Route path="create" element={<DirectionCreate />} />
+              <Route path="update/:id" element={<DirectionUpdate />} />
             </Route>
 
           </Route>
