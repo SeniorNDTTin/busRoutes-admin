@@ -28,11 +28,17 @@ const del = async (id: string) => {
   return response;
 }
 
+const findByDistrict = async (districtId: string) => {
+  const response = (await request.get<IResponse<IWard[]>>(`/wards/district/${districtId}`)).data;
+  return response;
+};
+
 const wardService = {
   get,
   getById,
   create,
   update,
-  del
+  del,
+  findByDistrict
 };
 export default wardService;

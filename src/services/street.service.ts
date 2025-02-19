@@ -28,11 +28,17 @@ const del = async (id: string) => {
   return response;
 }
 
+const findByWard = async (wardId: string) => {
+  const response = (await request.get<IResponse<IStreet[]>>(`/streets/ward/${wardId}`)).data;
+  return response;
+};
+
 const streetService = {
   get,
   getById,
   create,
   update,
-  del
+  del,
+  findByWard
 };
 export default streetService;

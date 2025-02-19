@@ -32,6 +32,11 @@ const items: MenuItem[] = [
     key: `/${admin}/streets`,
     label: "Đường",
     icon: <CiLocationArrow1 />
+  },
+  {
+    key: `/${admin}/bus-stops`,
+    label: "Trạm Dừng",
+    icon: <CiLocationArrow1 />
   }
 ];
 

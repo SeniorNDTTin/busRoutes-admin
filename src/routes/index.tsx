@@ -27,6 +27,12 @@ import StreetCreate from "../pages/streets/create";
 import StreetUpdate from "../pages/streets/update";
 import StreetDetail from "../pages/streets/detail";
 
+import BusStop from "../pages/busStops";
+import BusStopList from "../pages/busStops/list";
+import BusStopCreate from "../pages/busStops/create";
+import BusStopUpdate from "../pages/busStops/update";
+import BusStopDetail from "../pages/busStops/detail";
+
 function AppRoutes() {
   const admin = configs.prefixAdmin;
 
@@ -54,7 +60,7 @@ function AppRoutes() {
               <Route path="" element={<WardList />} />
               <Route path="detail/:id" element={<WardDetail />} />
               <Route path="create" element={<WardCreate />} />
-              <Route path="update/:id" element={<WardUpdate />} />
+              <Route path="update/:id" element={<WardUpdate />} />    
             </Route>
 
             {/* Streets */}
@@ -63,6 +69,14 @@ function AppRoutes() {
               <Route path="detail/:id" element={<StreetDetail />} />
               <Route path="create" element={<StreetCreate />} />
               <Route path="update/:id" element={<StreetUpdate />} />
+            </Route>
+
+            {/* BusStops */}
+            <Route path="bus-stops" element={<BusStop />} >
+              <Route path="" element={<BusStopList />} />
+              <Route path="detail/:id" element={<BusStopDetail />} />
+              <Route path="create" element={<BusStopCreate />} />
+              <Route path="update/:id" element={<BusStopUpdate />} />
             </Route>
           </Route>
         </Routes>
