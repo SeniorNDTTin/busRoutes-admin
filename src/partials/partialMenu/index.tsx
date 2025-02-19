@@ -37,8 +37,14 @@ const items: MenuItem[] = [
     key: `/${admin}/buses`,
     label: "Xe Bus",
     icon: <CiLocationArrow1 />
+  },
+  {
+    key: `/${admin}/directions`,
+    label: "Tuyến Đường",
+    icon: <CiLocationArrow1 />
   }
 ];
+
 
 function PartialMenu() {
   const navigate = useNavigate();
