@@ -44,6 +44,12 @@ import DirectionCreate from "../pages/directions/create";
 import DirectionUpdate from "../pages/directions/update";
 import DirectionDetail from "../pages/directions/detail";
 
+// BusStop
+import BusStop from "../pages/busStops";
+import BusStopList from "../pages/busStops/list";
+import BusStopCreate from "../pages/busStops/create";
+import BusStopUpdate from "../pages/busStops/update";
+import BusStopDetail from "../pages/busStops/detail";
 
 function AppRoutes() {
   const admin = configs.prefixAdmin;
@@ -72,7 +78,7 @@ function AppRoutes() {
               <Route path="" element={<WardList />} />
               <Route path="detail/:id" element={<WardDetail />} />
               <Route path="create" element={<WardCreate />} />
-              <Route path="update/:id" element={<WardUpdate />} />
+              <Route path="update/:id" element={<WardUpdate />} />    
             </Route>
 
             {/* Streets */}
@@ -97,6 +103,14 @@ function AppRoutes() {
               <Route path="detail/:id" element={<DirectionDetail />} />
               <Route path="create" element={<DirectionCreate />} />
               <Route path="update/:id" element={<DirectionUpdate />} />
+            </Route>
+            
+            {/* BusStops */}
+            <Route path="bus-stops" element={<BusStop />} >
+              <Route path="" element={<BusStopList />} />
+              <Route path="detail/:id" element={<BusStopDetail />} />
+              <Route path="create" element={<BusStopCreate />} />
+              <Route path="update/:id" element={<BusStopUpdate />} />
             </Route>
 
           </Route>
