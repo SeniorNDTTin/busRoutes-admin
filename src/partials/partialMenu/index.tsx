@@ -56,8 +56,14 @@ const items: MenuItem[] = [
       { key: `/${admin}/bus-routes/show-network`, label: 'Hiển thị mạng lưới' },
       { key: `/${admin}/bus-routes/update-information`, label: 'Cập nhật thông tin' },
     ],
+  },
+  {
+    key: `/${admin}/one-way-ticket-prices`,
+    label: "Giá vé một chiều",
+    icon: <CiLocationArrow1 />
   }
 ];
+
 
 
 function PartialMenu() {
