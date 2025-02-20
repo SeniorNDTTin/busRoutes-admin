@@ -1,0 +1,7 @@
+.update{
+    background-color:rgb(3, 3, 3) !important;
+}
+
+.update:hover{
+    background-color:rgb(80, 80, 80) !important;
+}

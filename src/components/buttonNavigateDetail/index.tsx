@@ -2,6 +2,8 @@ import { useNavigate } from "react-router-dom";
 
 import { Button } from "antd";
 
+import "./navigateDetail.css"
+
 interface props {
   id: string
 };
@@ -14,7 +16,7 @@ function ButtonNavigateDetail({ id }: props) {
   }
 
   return (
-    <Button type="primary" className="button-primary" onClick={handleNavigate}>Xem</Button>
+    <Button type="primary" className="button-primary detail" onClick={handleNavigate}>Xem</Button>
   );
 }
 

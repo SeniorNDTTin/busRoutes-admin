@@ -1,0 +1,7 @@
+.detail{
+    background-color: rgb(50, 130, 180) !important;
+}
+
+.detail:hover{
+    background-color:  rgb(88, 166, 214) !important;
+}
