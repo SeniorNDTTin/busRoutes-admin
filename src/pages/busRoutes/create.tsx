@@ -57,7 +57,7 @@ function BusRouteCreate() {
     }
        
      toast.success("Tạo mới thành công");
-    navigate(`/${configs.prefixAdmin}/bus-routes`);
+    navigate(`/${configs.prefixAdmin}/bus-routes/update-information`);
 
   }
 

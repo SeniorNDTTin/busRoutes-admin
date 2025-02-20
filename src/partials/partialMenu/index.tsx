@@ -5,7 +5,7 @@ import { CiLocationArrow1 } from "react-icons/ci";
 
 import type { MenuProps } from 'antd';
 import { Menu } from 'antd';
-
+import {FullscreenOutlined} from "@ant-design/icons"
 import configs from '../../configs';
 
 type MenuItem = Required<MenuProps>['items'][number];
@@ -50,8 +50,12 @@ const items: MenuItem[] = [
   },
   {
     key: `/${admin}/bus-routes`,
-    label: "Tuyến Bus",
-    icon: <CiLocationArrow1 />
+    label: "Quản lý các tuyến",
+    icon: <FullscreenOutlined />,
+    children: [
+      { key: `/${admin}/bus-routes/show-network`, label: 'Hiển thị mạng lưới' },
+      { key: `/${admin}/bus-routes/update-information`, label: 'Cập nhật thông tin' },
+    ],
   }
 ];
 

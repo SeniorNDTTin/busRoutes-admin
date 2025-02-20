@@ -1,4 +1,4 @@
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { BrowserRouter, Outlet, Route, Routes } from "react-router-dom";
 
 import LayoutAuth from "../layouts/auth";
 
@@ -119,11 +119,14 @@ function AppRoutes() {
             </Route>
 
             {/* BusRoute */}
-            <Route path="bus-routes" element={<BusRoute />} >
-              <Route path="" element={<BusRouteList />} />
-              <Route path="detail/:id" element={<BusRouteDetail />} />
-              <Route path="create" element={<BusRouteCreate />} />
-              <Route path="update/:id" element={<BusRouteUpdate />} />
+            <Route path="bus-routes" element={<Outlet />} >
+              <Route path="show-network" />
+              <Route path="update-information" element={<BusRoute />} >
+                <Route path="" element={<BusRouteList />} />
+                <Route path="detail/:id" element={<BusRouteDetail />} />
+                <Route path="create" element={<BusRouteCreate />} />
+                <Route path="update/:id" element={<BusRouteUpdate />} />
+              </Route>
             </Route>
 
           </Route>
