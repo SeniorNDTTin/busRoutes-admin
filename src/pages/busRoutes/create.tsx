@@ -8,12 +8,12 @@ import BoxInputBusRoute from "../../components/boxInputBusRoute";
 import BoxInputBusRouteN from "../../components/boxInputBusRoute/number";
 
 import GoBack from "../../components/goBack";
-import BoxUpdate from "../../components/boxUpdate";
 
 import busRouteService from "../../services/busRoute.service";
 import styles from "../../assets/admin/busRoute.module.scss"
 
 import configs from "../../configs";
+import BoxCreate from "../../components/boxCreate";
 
 function BusRouteCreate() {
     
@@ -114,7 +114,7 @@ function BusRouteCreate() {
 
               <BoxInputBusRoute  label="Khoảng thời gian giữa hai chuyến" name="timeBetweenTwoFlight" value={busRoute.timeBetweenTwoFlight ?? ""} onChange={handleChange} />
               <div className={styles.tool}>
-                <BoxUpdate onClick={handleSubmit} />  
+                <BoxCreate onClick={handleSubmit} /> 
               </div>
             </div>
           </div>
