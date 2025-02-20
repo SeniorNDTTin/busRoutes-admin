@@ -47,6 +47,11 @@ const items: MenuItem[] = [
     key: `/${admin}/bus-stops`,
     label: "Trạm Dừng",
     icon: <CiLocationArrow1 />
+  },
+  {
+    key: `/${admin}/bus-routes`,
+    label: "Tuyến Bus",
+    icon: <CiLocationArrow1 />
   }
 ];
 

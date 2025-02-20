@@ -3,3 +3,18 @@
   justify-content: end;
   margin-bottom: 30px;
 }
+
+.button-success{
+  background-color: rgb(18, 164, 99) !important;
+}
+
+.button-success:hover{
+  background-color: rgb(72, 198, 141) !important;
+  color: white !important;
+  border-color:rgb(72, 198, 141) !important ;
+
+}
+
+.button-success span {
+  padding-bottom: 0.3rem !important;
+}

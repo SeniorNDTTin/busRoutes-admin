@@ -1,6 +1,8 @@
 import { Button } from "antd";
 import { useNavigate } from "react-router-dom";
 
+import { ArrowLeftOutlined } from "@ant-design/icons";
+
 function GoBack() {
   const navigate = useNavigate();
   
@@ -10,7 +12,7 @@ function GoBack() {
 
   return (
     <>
-      <Button type="primary" onClick={handleClick}>Go Back</Button>
+       <Button type="primary" onClick={handleClick} icon={<ArrowLeftOutlined />} />
     </>
   );
 }

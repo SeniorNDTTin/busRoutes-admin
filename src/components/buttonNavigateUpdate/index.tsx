@@ -2,6 +2,8 @@ import { useNavigate } from "react-router-dom";
 
 import { Button } from "antd";
 
+import "./buttonUpdate.css"
+
 interface props {
   id: string
 };
@@ -14,7 +16,7 @@ function ButtonNavigateUpdate({ id }: props) {
   }
 
   return (
-    <Button type="primary" className="button-warning" onClick={handleNavigate}>Sửa</Button>
+    <Button type="primary" className="button-warning update" onClick={handleNavigate}>Sửa</Button>
   );
 }
 

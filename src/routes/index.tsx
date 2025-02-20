@@ -50,6 +50,11 @@ import BusStopList from "../pages/busStops/list";
 import BusStopCreate from "../pages/busStops/create";
 import BusStopUpdate from "../pages/busStops/update";
 import BusStopDetail from "../pages/busStops/detail";
+import BusRoute from "../pages/busRoutes";
+import BusRouteList from "../pages/busRoutes/list";
+import BusRouteDetail from "../pages/busRoutes/detail";
+import BusRouteUpdate from "../pages/busRoutes/update";
+import BusRouteCreate from "../pages/busRoutes/create";
 
 function AppRoutes() {
   const admin = configs.prefixAdmin;
@@ -111,6 +116,14 @@ function AppRoutes() {
               <Route path="detail/:id" element={<BusStopDetail />} />
               <Route path="create" element={<BusStopCreate />} />
               <Route path="update/:id" element={<BusStopUpdate />} />
+            </Route>
+
+            {/* BusRoute */}
+            <Route path="bus-routes" element={<BusRoute />} >
+              <Route path="" element={<BusRouteList />} />
+              <Route path="detail/:id" element={<BusRouteDetail />} />
+              <Route path="create" element={<BusRouteCreate />} />
+              <Route path="update/:id" element={<BusRouteUpdate />} />
             </Route>
 
           </Route>
