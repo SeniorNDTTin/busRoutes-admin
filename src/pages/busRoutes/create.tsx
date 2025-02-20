@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
+import { Input } from 'antd';
 
 import BoxHead from "../../components/boxHead";
 import BoxInputBusRoute from "../../components/boxInputBusRoute";
@@ -66,7 +67,8 @@ function BusRouteCreate() {
         <GoBack />
 
         <BoxHead title="Cập Nhật Tuyến Bus" />
-        <div className={styles.busRoutes}>
+
+         <div className={styles.busRoutes}>
           <div className={styles.busRoutes_wrapper}>
             <div className={styles.list}>
               <div className={styles.item}>
@@ -74,11 +76,23 @@ function BusRouteCreate() {
               </div>
 
               <div className={styles.item}>
-                  <BoxInputBusRouteN label="Độ dài tuyến" name="fullDistance" value={busRoute.fullDistance ?? 0} onChange={handleChange} />
+                  <div className={styles.child}>
+                    <BoxInputBusRouteN label="Độ dài tuyến" name="fullDistance" value={busRoute.fullDistance ?? 0} onChange={handleChange} />
+                  </div>
+
+                  <div className={styles.child1}>
+                      <Input placeholder="Km" disabled/>
+                  </div>             
               </div>
 
               <div className={styles.item}>
-                <BoxInputBusRouteN label="Giá vé tuyến" name="fullPrice" value={busRoute.fullPrice ?? 0} onChange={handleChange} />
+                <div className={styles.price}>
+                  <BoxInputBusRouteN label="Giá vé tuyến" name="fullPrice" value={busRoute.fullPrice ?? 0} onChange={handleChange} />
+                </div>
+
+                <div className={styles.vnd}>
+                    <Input placeholder="VND" disabled/>
+                </div>
               </div>
             </div>
 
@@ -104,7 +118,7 @@ function BusRouteCreate() {
               </div>
             </div>
           </div>
-      </div>
+         </div>
     </>
   );
 }

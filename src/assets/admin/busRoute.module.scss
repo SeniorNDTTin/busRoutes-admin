@@ -22,6 +22,25 @@
 
     .item{
         width: 30%;
+        display: flex;
+        justify-content: space-between;
+        
+        .child{
+            width: 78%;
+            margin-top: 1.7rem;
+        }
+        .child1{
+            width: 20%;
+            margin-top: 5.5rem;
+        }
+        .price{
+            width: 75%;
+            margin-top: 1.7rem;
+        }
+        .vnd{
+            margin-top: 5.5rem;
+            width: 23%;
+        }
     }
 }
 

@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { toast } from "react-toastify";
+import { Input } from 'antd';
 
 import BoxHead from "../../components/boxHead";
 import BoxInputBusRoute from "../../components/boxInputBusRoute";
@@ -79,11 +80,23 @@ function BusRouteUpdate() {
               </div>
 
               <div className={styles.item}>
-                  <BoxInputBusRouteN label="Độ dài tuyến" name="fullDistance" value={busRoute.fullDistance ?? 0} onChange={handleChange} />
+                  <div className={styles.child}>
+                    <BoxInputBusRouteN label="Độ dài tuyến" name="fullDistance" value={busRoute.fullDistance ?? 0} onChange={handleChange} />
+                  </div>
+
+                  <div className={styles.child1}>
+                      <Input placeholder="Km" disabled/>
+                  </div>             
               </div>
 
               <div className={styles.item}>
-                <BoxInputBusRouteN label="Giá vé tuyến" name="fullPrice" value={busRoute.fullPrice ?? 0} onChange={handleChange} />
+                <div className={styles.price}>
+                  <BoxInputBusRouteN label="Giá vé tuyến" name="fullPrice" value={busRoute.fullPrice ?? 0} onChange={handleChange} />
+                </div>
+
+                <div className={styles.vnd}>
+                    <Input placeholder="VND" disabled/>
+                </div>
               </div>
             </div>
 
@@ -110,8 +123,6 @@ function BusRouteUpdate() {
             </div>
           </div>
       </div>
-     
-
     </>
   );
 }

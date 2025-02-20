@@ -8,7 +8,7 @@ interface props {
   id: string
 };
 
-function ButtonNavigateUpdate({ id }: props) {
+function  ButtonNavigateUpdate({ id }: props) {
   const navigate = useNavigate();
 
   const handleNavigate = () => {
