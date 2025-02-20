@@ -70,7 +70,7 @@ function BusRouteUpdate() {
     <>
         <GoBack />
 
-       <BoxHead title="Cập Nhật Tuyến Bus" />
+       <BoxHead title="CẬP NHẬT TUYẾN BUS" />
 
       <div className={styles.busRoutes}>
           <div className={styles.busRoutes_wrapper}>

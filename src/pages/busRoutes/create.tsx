@@ -36,7 +36,7 @@ function BusRouteCreate() {
         ...busRoute,
         [name]: name === "fullPrice" || name === "fullDistance" ? Number(value) : value
     });
-};
+  };
 
 
   const handleSubmit = async () => {
@@ -66,7 +66,7 @@ function BusRouteCreate() {
     <>
         <GoBack />
 
-        <BoxHead title="Cập Nhật Tuyến Bus" />
+        <BoxHead title="TẠO MỚI TUYẾN BUS" />
 
          <div className={styles.busRoutes}>
           <div className={styles.busRoutes_wrapper}>
