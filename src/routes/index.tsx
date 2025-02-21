@@ -50,11 +50,20 @@ import BusStopList from "../pages/busStops/list";
 import BusStopCreate from "../pages/busStops/create";
 import BusStopUpdate from "../pages/busStops/update";
 import BusStopDetail from "../pages/busStops/detail";
+
+// BusRoute
 import BusRoute from "../pages/busRoutes";
 import BusRouteList from "../pages/busRoutes/list";
 import BusRouteDetail from "../pages/busRoutes/detail";
 import BusRouteUpdate from "../pages/busRoutes/update";
 import BusRouteCreate from "../pages/busRoutes/create";
+
+// MonthTicketPrice
+import MonthTicketPrice from "../pages/monthTicketPrices";
+import MonthTicketPriceList from "../pages/monthTicketPrices/list";
+import MonthTicketPriceCreate from "../pages/monthTicketPrices/create";
+import MonthTicketPriceUpdate from "../pages/monthTicketPrices/update";
+import MonthTicketPriceDetail from "../pages/monthTicketPrices/detail";
 
 function AppRoutes() {
   const admin = configs.prefixAdmin;
@@ -127,6 +136,14 @@ function AppRoutes() {
                 <Route path="create" element={<BusRouteCreate />} />
                 <Route path="update/:id" element={<BusRouteUpdate />} />
               </Route>
+            </Route>
+
+            {/* MonthTicketPrices */}
+            <Route path="month-ticket-prices" element={<MonthTicketPrice />} >
+              <Route path="" element={<MonthTicketPriceList />} />
+              <Route path="detail/:id" element={<MonthTicketPriceDetail />} />
+              <Route path="create" element={<MonthTicketPriceCreate />} />
+              <Route path="update/:id" element={<MonthTicketPriceUpdate />} />
             </Route>
 
           </Route>
