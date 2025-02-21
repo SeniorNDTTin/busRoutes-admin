@@ -6,65 +6,67 @@ import GoBack from "../../components/goBack";
 import BoxHead from "../../components/boxHead";
 import BoxInput from "../../components/boxInput";
 import BoxCreate from "../../components/boxCreate";
+import BoxSelect from "../../components/boxSelect";
 
 import configs from "../../configs";
+import busRouteService from "../../services/busRoute.service";
 import oneWayTicketPriceService from "../../services/oneWayTicketPrices.ts";
+
+import IBusRoute from "../../interfaces/busRoute";
 
 function OneWayTicketPriceUpdate() {
   const { id } = useParams();
   const navigate = useNavigate();
 
+  const [busRouteId, setBusRouteId] = useState("");
+  const [maxKilometer, setMaxKilometer] = useState("");
   const [unitPrice, setUnitPrice] = useState("");
-  const [busRouteId, setBusRouteId] = useState(""); // Thêm state để lưu busRouteId
+  const [busRoutes, setBusRoutes] = useState<IBusRoute[]>([]);
 
   useEffect(() => {
-    const fetchPrice = async () => {
+    const fetchData = async () => {
       try {
-        const response = await oneWayTicketPriceService.getById(id as string);
+        // Lấy danh sách tuyến xe buýt
+        const routeResponse = await busRouteService.get();
+        setBusRoutes(routeResponse.data);
 
-        console.log("API Response:", response); // 👉 Xem dữ liệu trả về từ API
+        // Lấy thông tin giá vé cần cập nhật
+        const priceResponse = await oneWayTicketPriceService.getById(id as string);
+        console.log("API Response:", priceResponse);
 
-        if (response.code === 200 && response.data) {
-          setUnitPrice(response.data.unitPrice.toString());
-          setBusRouteId(response.data.busRouteId); // Lưu busRouteId từ API
+        if (priceResponse.code === 200 && priceResponse.data) {
+          setBusRouteId(priceResponse.data.busRouteId);
+          setMaxKilometer(priceResponse.data.maxKilometer.toString());
+          setUnitPrice(priceResponse.data.unitPrice.toString());
         } else {
           toast.error("Không tìm thấy giá vé!");
         }
       } catch (error) {
-        console.error("Lỗi khi lấy dữ liệu giá vé:", error);
-        toast.error("Lỗi khi lấy dữ liệu giá vé!");
+        console.error("Lỗi khi lấy dữ liệu:", error);
+        toast.error("Lỗi khi lấy dữ liệu!");
       }
     };
 
-    fetchPrice();
+    fetchData();
   }, [id]);
 
-  const onChangeUnitPrice = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setUnitPrice(e.target.value);
-  };
-
   const handleSubmit = async () => {
-    if (!unitPrice) {
+    if (!busRouteId || !maxKilometer || !unitPrice) {
       toast.error("Chưa nhập đủ thông tin!");
       return;
     }
-  
+
     try {
-      const unitPriceValue = parseFloat(unitPrice);
-      if (isNaN(unitPriceValue) || unitPriceValue <= 0) {
-        toast.error("Giá vé không hợp lệ!");
-        return;
-      }
-  
-      // Gửi cả unitPrice và busRouteId để tránh lỗi 404
-      const updateData = { unitPrice: unitPriceValue, busRouteId };
+      const updateData = {
+        busRouteId,
+        maxKilometer: Number(maxKilometer),
+        unitPrice: Number(unitPrice),
+      };
+
       console.log("Dữ liệu gửi lên API:", updateData);
-  
       const response = await oneWayTicketPriceService.update(id as string, updateData);
-  
-      console.log("API Update Response:", response); // Kiểm tra phản hồi từ API
-  
-      // ✅ Kiểm tra nếu API trả về code 200 hoặc 201 thì hiển thị thành công
+
+      console.log("API Update Response:", response);
       if (response.code === 200 || response.code === 201) {
         toast.success("Cập nhật thành công!");
         navigate(`/${configs.prefixAdmin}/one-way-ticket-prices`);
@@ -72,17 +74,31 @@ function OneWayTicketPriceUpdate() {
         toast.error("Có lỗi xảy ra khi cập nhật!");
       }
     } catch (error) {
-      console.error("Lỗi khi cập nhật giá vé:", error);
+      console.error("Lỗi khi cập nhật:", error);
       toast.error("Lỗi khi cập nhật dữ liệu!");
     }
   };
-  
 
   return (
     <>
       <GoBack />
       <BoxHead title="Cập Nhật Giá Vé Một Chiều" />
-      <BoxInput label="Giá vé" value={unitPrice} onChange={onChangeUnitPrice} type="number" />
+
+      {busRoutes.length > 0 && (
+        <BoxSelect
+          label="Tuyến xe buýt"
+          value={busRouteId}
+          options={busRoutes.map((route) => ({
+            value: route._id,
+            label: route.name,
+          }))}
+          onChange={(value) => setBusRouteId(value)}
+        />
+      )}
+
+      <BoxInput label="Số Km Tối Đa" value={maxKilometer} onChange={(e) => setMaxKilometer(e.target.value)} type="number" />
+      <BoxInput label="Giá vé" value={unitPrice} onChange={(e) => setUnitPrice(e.target.value)} type="number" />
+
       <BoxCreate onClick={handleSubmit} />
     </>
   );
