@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 import { Button, Space, Table, TableProps } from "antd";
+import { ScheduleOutlined } from "@ant-design/icons";
 import { toast } from "react-toastify";
 
 import BoxHead from "../../components/boxHead";
@@ -12,6 +14,10 @@ import IBusRoute from "../../interfaces/busRoute";
 import busRouteService from "../../services/busRoute.service";
 
 import "../../components/buttonDelete/buttonDelete.css"
+import styles from  "../../assets/admin/busRoute.module.scss"
+
+import configs from "../../configs";
+const admin = configs.prefixAdmin;
 
 function BusRouteList() {
   const [reload, setReload] = useState(false);
@@ -28,6 +34,11 @@ function BusRouteList() {
 
   const handleReload = () => {
     setReload(!reload);
+  }
+
+  const nav = useNavigate()
+  const navSchedules = () => {
+    nav(`/${admin}/schedules`)
   }
 
   const handleDel = async (id: string) => {
@@ -50,6 +61,7 @@ function BusRouteList() {
       dataIndex: "orderNumber",
       key: "orderNumber",
       align: "center",
+      onHeaderCell: () => ({className: styles.header_cell}),
       render: (_, __, index: number) => <Button>{index + 1}</Button>
     },
     {
@@ -57,12 +69,14 @@ function BusRouteList() {
       dataIndex: "name",
       key: "name",
       align: "center",
+      onHeaderCell: () => ({className: styles.header_cell}),
     },
     {
       title: "Hành động",
       dataIndex: "action",
       key: "action",
       align: "center",  
+      onHeaderCell: () => ({className: styles.header_cell}),
       render: (_, record) => {
         const id = record._id;
 
@@ -80,8 +94,10 @@ function BusRouteList() {
   return (
     <>
       <BoxHead title="DANH SÁCH CÁC TUYẾN BUS" />
-
-      <BoxNavigateCreate />
+      <div className={styles.toolBusRoute}>
+          <Button color="cyan" variant="solid" onClick={navSchedules}><ScheduleOutlined style={{ fontSize: '1.2rem'}}/></Button>
+         <BoxNavigateCreate />
+      </div>
 
       <Table  dataSource={busRoute} columns={columns} />
     </>

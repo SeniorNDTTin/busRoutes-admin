@@ -1,0 +1,37 @@
+
+.header_cell {
+    font-weight: bold !important;
+}
+
+.busRoutes {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.busRoutes_wrapper {
+    margin-left: 10rem !important;
+    width: 90%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    gap: 1rem;
+    
+}
+
+.list, .list_tool {
+    width: 80%;
+    display: flex;
+    justify-content: space-around;
+
+    .item{
+        width: 45%;
+        display: flex;
+        justify-content: space-between;
+        
+       
+    }
+}
+

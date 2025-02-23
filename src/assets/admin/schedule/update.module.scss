@@ -22,11 +22,10 @@
 .list, .list_tool {
     width: 80%;
     display: flex;
-    flex-direction: row;
-    gap: 5rem;
+    justify-content: space-between;
 
     .item{
-        width: 30%;
+        width: 45%;
         display: flex;
         justify-content: space-between;
         
@@ -47,14 +46,15 @@
             width: 23%;
         }
     }
+
+    .time{
+        width: 45%;
+        .timePicker{
+            width: 90%;
+        }
+    }
 }
 
-.list_tool .tool {
-    margin-top: 3.5rem;
-
-}
-
-.toolBusRoute{
-    display: flex;
-    justify-content: space-between;
+.tool{
+    margin-top: 5rem;
 }
