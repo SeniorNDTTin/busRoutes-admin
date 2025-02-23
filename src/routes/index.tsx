@@ -65,6 +65,13 @@ import MonthTicketPriceCreate from "../pages/monthTicketPrices/create";
 import MonthTicketPriceUpdate from "../pages/monthTicketPrices/update";
 import MonthTicketPriceDetail from "../pages/monthTicketPrices/detail";
 
+// OneWayTicketPrices
+import OneWayTicketPrice from "../pages/oneWayTicketPrices";
+import OneWayTicketPriceList from "../pages/oneWayTicketPrices/list";
+import OneWayTicketPriceCreate from "../pages/oneWayTicketPrices/create";
+import OneWayTicketPriceUpdate from "../pages/oneWayTicketPrices/update";
+import OneWayTicketPriceDetail from "../pages/oneWayTicketPrices/detail";
+
 function AppRoutes() {
   const admin = configs.prefixAdmin;
 
@@ -145,7 +152,15 @@ function AppRoutes() {
               <Route path="create" element={<MonthTicketPriceCreate />} />
               <Route path="update/:id" element={<MonthTicketPriceUpdate />} />
             </Route>
-
+            
+            {/* OneWayTicketPrices */}
+            <Route path="one-way-ticket-prices" element={<OneWayTicketPrice />}>
+              <Route path="" element={<OneWayTicketPriceList />} />
+              <Route path="detail/:id" element={<OneWayTicketPriceDetail />} />
+              <Route path="create" element={<OneWayTicketPriceCreate />} />
+              <Route path="update/:id" element={<OneWayTicketPriceUpdate />} />
+            </Route>
+            
           </Route>
         </Routes>
       </BrowserRouter>

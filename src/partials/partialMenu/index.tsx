@@ -62,7 +62,13 @@ const items: MenuItem[] = [
     label: "Giá Vé Tháng",
     icon: <CiLocationArrow1 />
   },
+  {
+    key: `/${admin}/one-way-ticket-prices`,
+    label: "Giá vé một chiều",
+    icon: <CiLocationArrow1 />
+  }
 ];
+
 
 
 function PartialMenu() {
