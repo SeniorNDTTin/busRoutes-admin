@@ -56,6 +56,14 @@ import BusRouteDetail from "../pages/busRoutes/detail";
 import BusRouteUpdate from "../pages/busRoutes/update";
 import BusRouteCreate from "../pages/busRoutes/create";
 
+// OneWayTicketPrices
+import OneWayTicketPrice from "../pages/oneWayTicketPrices";
+import OneWayTicketPriceList from "../pages/oneWayTicketPrices/list";
+import OneWayTicketPriceCreate from "../pages/oneWayTicketPrices/create";
+import OneWayTicketPriceUpdate from "../pages/oneWayTicketPrices/update";
+import OneWayTicketPriceDetail from "../pages/oneWayTicketPrices/detail";
+
+
 function AppRoutes() {
   const admin = configs.prefixAdmin;
 
@@ -128,6 +136,14 @@ function AppRoutes() {
                 <Route path="update/:id" element={<BusRouteUpdate />} />
               </Route>
             </Route>
+
+              {/* OneWayTicketPrices */}
+              <Route path="one-way-ticket-prices" element={<OneWayTicketPrice />}>
+                <Route path="" element={<OneWayTicketPriceList />} />
+                <Route path="detail/:id" element={<OneWayTicketPriceDetail />} />
+                <Route path="create" element={<OneWayTicketPriceCreate />} />
+                <Route path="update/:id" element={<OneWayTicketPriceUpdate />} />
+              </Route>
 
           </Route>
         </Routes>
