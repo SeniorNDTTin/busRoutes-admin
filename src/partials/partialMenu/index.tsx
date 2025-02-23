@@ -58,6 +58,11 @@ const items: MenuItem[] = [
     ],
   },
   {
+    key: `/${admin}/month-ticket-prices`,
+    label: "Giá Vé Tháng",
+    icon: <CiLocationArrow1 />
+  },
+  {
     key: `/${admin}/one-way-ticket-prices`,
     label: "Giá vé một chiều",
     icon: <CiLocationArrow1 />
