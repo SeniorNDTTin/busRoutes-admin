@@ -47,6 +47,21 @@
             width: 23%;
         }
     }
+    .time{
+        width: 30%;
+        margin-top: 2.1rem;
+        .timeItem p{
+            font-weight: bold;
+        }
+        .timePicker{
+            display: flex;
+            flex-direction: row;
+            gap: 0.4rem;
+
+        }
+
+
+    }
 }
 
 .list_tool .tool {
