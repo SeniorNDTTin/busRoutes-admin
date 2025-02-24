@@ -77,6 +77,13 @@ import ScheduleDetail from "../pages/schedules/detail";
 import ScheduleCreate from "../pages/schedules/create";
 import ScheduleUpdate from "../pages/schedules/update";
 
+// Customers
+import Customer from "../pages/customers";
+import CustomerList from "../pages/customers/list";
+import CustomerCreate from "../pages/customers/create";
+import CustomerUpdate from "../pages/customers/update";
+import CustomerDetail from "../pages/customers/detail";
+
 function AppRoutes() {
   const admin = configs.prefixAdmin;
 
@@ -174,6 +181,13 @@ function AppRoutes() {
               <Route path="update/:id" element={<ScheduleUpdate />} />
             </Route>
             
+            {/* Customers */}
+            <Route path="customers" element={<Customer />}>
+              <Route path="" element={< CustomerList />} />
+              <Route path="detail/:id" element={<CustomerDetail/>} />
+              <Route path="create" element={< CustomerCreate />} />
+              <Route path="update/:id" element={< CustomerUpdate />} />
+            </Route>
           </Route>
         </Routes>
       </BrowserRouter>
