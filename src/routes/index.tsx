@@ -71,6 +71,11 @@ import OneWayTicketPriceList from "../pages/oneWayTicketPrices/list";
 import OneWayTicketPriceCreate from "../pages/oneWayTicketPrices/create";
 import OneWayTicketPriceUpdate from "../pages/oneWayTicketPrices/update";
 import OneWayTicketPriceDetail from "../pages/oneWayTicketPrices/detail";
+import Schedules from "../pages/schedules";
+import ScheduleList from "../pages/schedules/list";
+import ScheduleDetail from "../pages/schedules/detail";
+import ScheduleCreate from "../pages/schedules/create";
+import ScheduleUpdate from "../pages/schedules/update";
 
 function AppRoutes() {
   const admin = configs.prefixAdmin;
@@ -159,6 +164,14 @@ function AppRoutes() {
               <Route path="detail/:id" element={<OneWayTicketPriceDetail />} />
               <Route path="create" element={<OneWayTicketPriceCreate />} />
               <Route path="update/:id" element={<OneWayTicketPriceUpdate />} />
+            </Route>
+
+            {/* Schedules */}
+            <Route path="schedules" element={<Schedules />}>
+              <Route path="" element={<ScheduleList />} />
+              <Route path="detail/:id" element={<ScheduleDetail />} />
+              <Route path="create" element={<ScheduleCreate />} />
+              <Route path="update/:id" element={<ScheduleUpdate />} />
             </Route>
             
           </Route>

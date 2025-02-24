@@ -1,19 +1,20 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
-import { Input } from 'antd';
+import { Space, TimePicker ,TimePickerProps,Input} from 'antd';
 
 import BoxHead from "../../components/boxHead";
 import BoxInputBusRoute from "../../components/boxInputBusRoute";
 import BoxInputBusRouteN from "../../components/boxInputBusRoute/number";
-
 import GoBack from "../../components/goBack";
+import BoxCreate from "../../components/boxCreate";
+
 
 import busRouteService from "../../services/busRoute.service";
 import styles from "../../assets/admin/busRoute.module.scss"
 
 import configs from "../../configs";
-import BoxCreate from "../../components/boxCreate";
+import dayjs from "dayjs";
 
 function BusRouteCreate() {
     
@@ -24,8 +25,8 @@ function BusRouteCreate() {
     fullDistance: 0,
     fullPrice: 0,
     time: "",
-    firstFlightStartTime: "", 
-    lastFlightStartTime: "",   
+    firstFlightStartTime: "12:00 AM", 
+    lastFlightStartTime: "12:00 PM",   
     timeBetweenTwoFlight: "",
 });
 
@@ -38,6 +39,39 @@ function BusRouteCreate() {
     });
   };
 
+  const [startTime, setStartTime] = useState("12:00 AM")
+  const [endTime, setEndTime] = useState("12:00 PM")
+
+  const onChangeStartTime: TimePickerProps['onChange'] = (time,timeString) => {
+    setStartTime(Array.isArray(timeString) ? timeString[0] : timeString);
+    setBusRoute((prev) => ({
+        ...prev,
+        time: `${timeString} - ${endTime}`
+    }))
+  };
+
+  const onChangeEndTime: TimePickerProps['onChange'] = (time,timeString) => {
+    setEndTime(Array.isArray(timeString) ? timeString[0] : timeString);
+    setBusRoute((prev) => ({
+          ...prev,
+            time: `${startTime} - ${timeString}`
+      }))
+  };
+
+  const onChange: TimePickerProps['onChange'] = (time,timeString) => {
+          setBusRoute((prev) => ({
+              ...prev,
+              firstFlightStartTime: Array.isArray(timeString) ? timeString[0] : timeString,
+             
+          }))
+  };
+  const onChangeEnd: TimePickerProps['onChange'] = (time,timeString) => {
+        setBusRoute((prev) => ({
+              ...prev,
+              lastFlightStartTime: Array.isArray(timeString) ? timeString[0] : timeString,
+             
+          }))
+  };
 
   const handleSubmit = async () => {
     const data = {...busRoute}
@@ -97,17 +131,39 @@ function BusRouteCreate() {
             </div>
 
             <div className={styles.list}>
-              <div className={styles.item}>
-                <BoxInputBusRoute label="Thời gian toàn tuyến" name="time" value={busRoute.time ?? 0} onChange={handleChange} />
-              </div>
+                <div className={styles.time}>
+                    <div className={styles.timeItem}>                
+                        <p>Thời Gian Toàn Tuyến</p>
+                    </div>
+                    <div className={styles.timePicker}>
+                          <Space wrap>
+                              <TimePicker style={{ width: "115px" }} value={dayjs(startTime, "h:mm A")} use12Hours format="h:mm A" name="startTime" onChange={onChangeStartTime}  allowClear={false} />
+                        </Space>
+                        <Space wrap>
+                                <TimePicker style={{ width: "115px" }} value={dayjs(endTime, "h:mm A")} use12Hours format="h:mm A" name="endTime" onChange={onChangeEndTime}  allowClear={false} />
+                          </Space>
+                    </div>
+                  </div>
 
-              <div className={styles.item}>
-                <BoxInputBusRoute label="Giờ bắt đầu chuyến đầu tiên" name="firstFlightStartTime" value={busRoute.firstFlightStartTime ?? ""} onChange={handleChange} />
-              </div>
+                <div className={styles.time}>
+                  {/* <BoxInputBusRoute label="Giờ bắt đầu chuyến đầu tiên" name="firstFlightStartTime" value={busRoute.firstFlightStartTime ?? ""} onChange={handleChange} /> */}
+                  <div className={styles.timeItem}>                
+                    <p>Giờ bắt đầu chuyến đầu tiên</p>
+                  </div>
+                  <Space wrap>
+                      <TimePicker style={{ width: "240px" }} value={dayjs(busRoute.firstFlightStartTime, "h:mm A")} use12Hours format="h:mm A" name="firstFlightStartTime" onChange={onChange}  allowClear={false} />
+                </Space>
+                </div>
 
-              <div className={styles.item}>
-                <BoxInputBusRoute label="Giờ bắt đầu chuyến cuối cùng" name="lastFlightStartTime" value={busRoute.lastFlightStartTime ?? ""} onChange={handleChange} />
-              </div>
+                <div className={styles.time}>
+                  {/* <BoxInputBusRoute label="Giờ bắt đầu chuyến đầu tiên" name="firstFlightStartTime" value={busRoute.firstFlightStartTime ?? ""} onChange={handleChange} /> */}
+                  <div className={styles.timeItem}>                
+                    <p>Giờ bắt đầu chuyến cuối cùng</p>
+                  </div>
+                  <Space wrap>
+                      <TimePicker style={{ width: "240px" }} value={dayjs(busRoute.lastFlightStartTime, "h:mm A")} use12Hours format="h:mm A" name="firstFlightStartTime" onChange={onChangeEnd}  allowClear={false} />
+                </Space>
+                </div>
             </div>
             
             <div className={styles.list_tool}>
