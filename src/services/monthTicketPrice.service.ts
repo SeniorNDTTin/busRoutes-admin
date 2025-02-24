@@ -28,11 +28,11 @@ const del = async (id: string) => {
   return response;
 }
 
-const monthTicketPrice = {
+const monthTicketPriceService = {
   get,
   getById,
   create,
   update,
   del
 };
-export default monthTicketPrice;
+export default monthTicketPriceService;

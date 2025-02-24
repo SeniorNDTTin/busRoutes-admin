@@ -2,6 +2,12 @@ import { useNavigate, useLocation } from 'react-router-dom';
 
 import { MdDashboard } from "react-icons/md";
 import { CiLocationArrow1 } from "react-icons/ci";
+import { FaUserFriends } from "react-icons/fa";
+import { FaBusAlt } from "react-icons/fa";
+import { FaArrowRightArrowLeft } from "react-icons/fa6";
+import { RiMapPinRangeFill } from "react-icons/ri";
+import { HiOutlineTicket } from "react-icons/hi2";
+import { LuTicketsPlane } from "react-icons/lu";
 
 import type { MenuProps } from 'antd';
 import { Menu } from 'antd';
@@ -36,17 +42,17 @@ const items: MenuItem[] = [
   {
     key: `/${admin}/buses`,
     label: "Xe Bus",
-    icon: <CiLocationArrow1 />
+    icon: <FaBusAlt />
   },
   {
     key: `/${admin}/directions`,
     label: "Tuyến Đường",
-    icon: <CiLocationArrow1 />
+    icon: <FaArrowRightArrowLeft />
   },
   {
     key: `/${admin}/bus-stops`,
     label: "Trạm Dừng",
-    icon: <CiLocationArrow1 />
+    icon: <RiMapPinRangeFill  />
   },
   {
     key: `/${admin}/bus-routes`,
@@ -60,12 +66,17 @@ const items: MenuItem[] = [
   {
     key: `/${admin}/month-ticket-prices`,
     label: "Giá Vé Tháng",
-    icon: <CiLocationArrow1 />
+    icon: <LuTicketsPlane  />
   },
   {
     key: `/${admin}/one-way-ticket-prices`,
-    label: "Giá vé một chiều",
-    icon: <CiLocationArrow1 />
+    label: "Giá Vé Lượt",
+    icon: <HiOutlineTicket />
+  },
+  {
+    key: `/${admin}/customers`,
+    label: "Khách hàng",
+    icon: < FaUserFriends />
   }
 ];
 
