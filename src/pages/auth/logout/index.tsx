@@ -1,6 +1,9 @@
 import { useNavigate } from "react-router-dom";
 
 import { Button } from "antd";
+import {LogoutOutlined} from "@ant-design/icons"
+
+import styles from "../../../assets/admin/logout/index.module.scss"
 
 function Logout() {
   const navigate = useNavigate();
@@ -12,7 +15,7 @@ function Logout() {
 
   return (
     <>
-      <Button type="primary" className="button-danger" onClick={handleLogout}>Đăng xuất</Button>
+      <Button type="primary" className={`${styles.logout} button-danger`} onClick={handleLogout}><LogoutOutlined className={styles.icon}/></Button>
     </>
   );
 }

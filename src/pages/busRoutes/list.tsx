@@ -13,8 +13,10 @@ import BoxNavigateCreate from "../../components/boxNavigateCreate";
 import IBusRoute from "../../interfaces/busRoute";
 import busRouteService from "../../services/busRoute.service";
 
+import busRouteDetailService from "../../services/busRouteDetail";
+
 import "../../components/buttonDelete/buttonDelete.css"
-import styles from  "../../assets/admin/busRoute.module.scss"
+import styles from  "../../assets/admin/busRoute/busRoute.module.scss"
 
 import configs from "../../configs";
 const admin = configs.prefixAdmin;
@@ -43,6 +45,12 @@ function BusRouteList() {
 
   const handleDel = async (id: string) => {
     if (confirm("Bạn chắc chứ?")) {
+      const detailDel = (await busRouteDetailService.getByRouteId(id)).data
+      await Promise.all(
+          detailDel.map( async (item) =>{
+              await busRouteDetailService.del(item._id)
+          })
+      )
       const response = await busRouteService.del(id)
 
       if (response.code !== 200) {

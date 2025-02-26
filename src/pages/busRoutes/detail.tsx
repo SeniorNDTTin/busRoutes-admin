@@ -5,23 +5,42 @@ import { Input } from 'antd';
 import GoBack from "../../components/goBack";
 import BoxHead from "../../components/boxHead";
 import BoxInput from "../../components/boxInput";
+import BoxTime from "../../components/boxTime";
 
 import busRouteService from "../../services/busRoute.service";
 import IBusRoute from "../../interfaces/busRoute";
 
-import styles from "../../assets/admin/busRoute.module.scss"
+import busRouteDetailService from "../../services/busRouteDetail";
+import IBusRouteDetail from "../../interfaces/busRouteDetail";
+
+import busStopService from "../../services/busStop.service";
+import IBusStop from "../../interfaces/busStop";
+
+import styles from "../../assets/admin/busRoute/busRoute.module.scss"
 
 function BusRouteDetail() {
   const { id } = useParams();
   const[busRoute, setBusRoute] = useState<Partial<IBusRoute>>({});
+  const[busRouteDetail, setBusRouteDetail] = useState<IBusRouteDetail []>([])
+  const [busStop, setBusSTop] = useState<IBusStop[]>([])
 
   useEffect(() => {
     const  fetchApi = async () => {
          const BusRoute = (await busRouteService.getById(id as string)).data
          setBusRoute(BusRoute)
+          const detail = (await busRouteDetailService.getByRouteId(id as string)).data 
+          setBusRouteDetail(detail);  
+
+          const detailList = await Promise.all(
+              detail.map(async (item) => {
+                  return (await busStopService.getById(item.busStopId)).data
+              })
+          )
+          setBusSTop(detailList)
+
      }
      fetchApi()
- },[id])
+  },[id])
 
   const formatCurrency = (value?: number) => {
     if (!value) return "0";
@@ -78,19 +97,41 @@ function BusRouteDetail() {
                 <BoxInput label="Giờ bắt đầu chuyến cuối cùng"  value={busRoute.lastFlightStartTime ?? ""} onChange={() => {}} />
               </div>
             </div>
-            
-            <div className={styles.list_tool}>
 
-              <BoxInput  label="Khoảng thời gian giữa hai chuyến"  value={busRoute.timeBetweenTwoFlight ?? ""} onChange={() => {}} />
+            <div className={styles.list_tool}>
+                <BoxTime  label="Khoảng thời gian giữa hai chuyến"  value={busRoute.timeBetweenTwoFlight ?? ""} onChange={() => {}} />
             </div>
+
+            <div className={styles.listDistance}>
+                  <div className={styles.direction}>
+                            <span>Lượt Đi : </span>
+                  </div>
+                  <div className={styles.busStop}>          
+                      {busStop.map((value, index) => 
+                          <div className={styles.item1}>
+                              <div className={styles.index}>{index + 1}</div>
+                              <div className={styles.name}>{value.name}</div>
+                          </div>
+                      )}
+                  </div>
+            </div>
+            
+            <div className={styles.listDistance}>
+                  <div className={styles.reverse}>
+                            <span>Lượt Về : </span>
+                  </div>
+                  <div className={styles.busStop}>          
+                      {busStop.slice().reverse().map((value, index) => 
+                          <div className={styles.item1}>
+                              <div className={styles.index}>{index + 1}</div>
+                              <div className={styles.name}>{value.name}</div>
+                          </div>
+                      )}
+                  </div>
+            </div>
+            
           </div>
       </div>
-        {/* <BoxInput label="Tên" value={busRoute.name ?? ""} onChange={() => {}} />
-        <BoxInput label="Độ dài tuyến" value={busRoute.fullDistance ?? 0 } onChange={() => {}} />
-        <BoxInput label="Giá vé tuyến" value={busRoute.fullPrice ?? 0} onChange={() => {}} />
-        <BoxInput label="Giờbắt đầu chuyến đầu tiên" value={busRoute.firstFlightStartTime ?? ""} onChange={() => {}} />
-        <BoxInput label="Giờ bắt đầu chuyến cuối cùng" value={busRoute.lastFlightStartTime ?? ""} onChange={() => {}} />
-        <BoxInput label="Khoảng thời gian giữa hai chuyến" value={busRoute.timeBetweenTwoFlight ?? ""} onChange={() => {}} /> */}
     </>
   );
 }

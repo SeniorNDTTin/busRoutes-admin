@@ -1,0 +1,17 @@
+.logout{
+    background-color: rgb(48, 148, 229) !important;
+    color: white;
+    .icon {
+        font-weight:800 ;
+        font-size: 1.1rem;
+    }
+}
+
+.logout:hover{
+    background-color: rgb(215, 235, 255) !important;
+    color: rgb(40, 141, 224) !important;
+
+    .icon {
+        font-weight: 800  !important;
+    }
+}

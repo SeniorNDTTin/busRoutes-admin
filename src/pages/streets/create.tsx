@@ -66,7 +66,7 @@ function StreetCreate() {
       {wards.length && (
         <BoxSelect
           value={wardId}
-          label="Quận/Huyện"
+          label="Xã / Phường"
           options={wards.map(item => ({ value: item._id, label: item.name }))}
           onChange={onChangeWardId}
         />
