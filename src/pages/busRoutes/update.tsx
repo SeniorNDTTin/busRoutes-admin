@@ -95,14 +95,12 @@ function BusRouteUpdate() {
   
         const detail = (await busRouteDetailService.getByRouteId(id as string)).data;
         setBusRouteDetail(detail);
-      console.log(detail)
 
         const initialSelectedValues = detail
           .map((item) => item.busStopId)
           .filter((id) => stop.some((stopItem) => stopItem._id === id));
 
         setSelectedValues(initialSelectedValues);
-        console.log("giá trị đã check data",selectedValues)
 
         let initialOrderMap = new Map<string, number>();
         detail.forEach((item) => {
@@ -181,7 +179,6 @@ function BusRouteUpdate() {
   
     setOrderMap(newOrderMap);
 
-    console.log("giá trị check", selectedValues)
   };
 
   const haversineDistance = (lat1: number, long1: number, lat2: number, long2: number) => {
