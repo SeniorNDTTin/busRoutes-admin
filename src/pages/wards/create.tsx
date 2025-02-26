@@ -46,7 +46,7 @@ function WardCreate() {
     }
 
     const response = await wardService.create({ name, districtId });
-    if (response.code !== 200) {
+    if (response.code !== 201) {
       toast.error("Có lỗi xảy ra!");
       return;
     }
