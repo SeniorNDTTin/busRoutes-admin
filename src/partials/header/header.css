@@ -1,8 +1,23 @@
 .header {
   display: flex;
   justify-content: space-between;
-  background-color: #000000;
+  align-items: center;
+  background: #1A202C linear-gradient(170deg, #1A365D80 9%, #3182ce80 180%);
   color: #ffffff;
   font-weight: bold;
   padding: 20px;
+}  
+
+.inner-logo{
+  display: flex;
+  align-items: center;
+  height: 46px;
+}
+
+
+.inner-logo img {
+  height: 100%; 
+  width: auto; 
+  max-width: 150px;
+  object-fit: contain; 
 }

@@ -29,7 +29,7 @@ const ScheduleList = () => {
                     schedule.map(async (item) => {
                         const busRoute = (await busRouteService.getById(item.busRouteId)).data
                         const bus = (await busService.getById(item.busId)).data
-                        console.log(bus)
+                        
                         return{
                             ...item,
                             busRouteName : busRoute?.name  as "busRouteName" || "unknow",
