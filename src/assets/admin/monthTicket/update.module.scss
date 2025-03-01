@@ -1,0 +1,27 @@
+.flex-container {
+    display: flex;
+    gap: 32px;
+}
+
+.buttonContainer {
+    display: flex;
+    justify-content: space-around;
+    gap: 10px; 
+    margin-top: 20px; 
+    margin-right: 250px;
+}
+
+.renewButton {
+    margin-top: 30px;
+    background-color: #FF9800;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    font-weight: bold;
+}
+
+.renewButton:hover {
+    background-color: #f57c00; 
+}

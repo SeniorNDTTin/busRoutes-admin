@@ -77,7 +77,12 @@ const items: MenuItem[] = [
     key: `/${admin}/customers`,
     label: "Khách hàng",
     icon: < FaUserFriends />
-  }
+  },
+  {
+    key: `/${admin}/month-tickets`,
+    label: "Vé Tháng",
+    icon: <LuTicketsPlane  />
+  },
 ];
 
 
