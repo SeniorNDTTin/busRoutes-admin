@@ -10,7 +10,7 @@ import BoxSelect from "../../components/boxSelect";
 
 import configs from "../../configs";
 import busRouteService from "../../services/busRoute.service";
-import oneWayTicketPriceService from "../../services/oneWayTicketPrices.ts";
+import oneWayTicketPriceService from "../../services/oneWayTicketPrices.service.ts";
 
 import IBusRoute from "../../interfaces/busRoute";
 
@@ -32,17 +32,17 @@ function OneWayTicketPriceUpdate() {
 
         // Lấy thông tin giá vé cần cập nhật
         const priceResponse = await oneWayTicketPriceService.getById(id as string);
-        console.log("API Response:", priceResponse);
+        console.log("API GetById Response:", priceResponse);
 
         if (priceResponse.code === 200 && priceResponse.data) {
           setBusRouteId(priceResponse.data.busRouteId);
           setMaxKilometer(priceResponse.data.maxKilometer.toString());
           setUnitPrice(priceResponse.data.unitPrice.toString());
         } else {
-          toast.error("Không tìm thấy giá vé!");
+          toast.error(`Không tìm thấy giá vé! Mã lỗi: ${priceResponse.code}`);
         }
-      } catch (error) {
-        console.error("Lỗi khi lấy dữ liệu:", error);
+      } catch (error: any) {
+        console.error("Lỗi khi lấy dữ liệu:", error.response?.data || error.message);
         toast.error("Lỗi khi lấy dữ liệu!");
       }
     };
@@ -71,11 +71,13 @@ function OneWayTicketPriceUpdate() {
         toast.success("Cập nhật thành công!");
         navigate(`/${configs.prefixAdmin}/one-way-ticket-prices`);
       } else {
-        toast.error("Có lỗi xảy ra khi cập nhật!");
+        toast.error(`Có lỗi xảy ra khi cập nhật: ${response.message || `Mã lỗi ${response.code}`}`);
       }
-    } catch (error) {
-      console.error("Lỗi khi cập nhật:", error);
-      toast.error("Lỗi khi cập nhật dữ liệu!");
+    } catch (error: any) {
+      console.error("Lỗi khi cập nhật:", error.response?.data || error.message);
+      toast.error(
+        `Lỗi khi cập nhật dữ liệu: ${error.response?.data?.message || error.message || "Không rõ nguyên nhân"}`
+      );
     }
   };
 
@@ -96,8 +98,18 @@ function OneWayTicketPriceUpdate() {
         />
       )}
 
-      <BoxInput label="Số Km Tối Đa" value={maxKilometer} onChange={(e) => setMaxKilometer(e.target.value)} type="number" />
-      <BoxInput label="Giá vé" value={unitPrice} onChange={(e) => setUnitPrice(e.target.value)} type="number" />
+      <BoxInput
+        label="Số Km Tối Đa"
+        value={maxKilometer}
+        onChange={(e) => setMaxKilometer(e.target.value)}
+        type="number"
+      />
+      <BoxInput
+        label="Giá vé"
+        value={unitPrice}
+        onChange={(e) => setUnitPrice(e.target.value)}
+        type="number"
+      />
 
       <BoxCreate onClick={handleSubmit} />
     </>
