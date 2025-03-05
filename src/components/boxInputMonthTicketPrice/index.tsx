@@ -9,6 +9,7 @@ interface Props {
   value: string | number;
   onChange: (name: string, value: string | number) => void; 
   type?: "text" | "number" | "date" | "datetime-local";
+  className?: string; 
 }
 
 function BoxInputMonthTicketPrice({ label, name, value, onChange, type = "text" }: Props) {

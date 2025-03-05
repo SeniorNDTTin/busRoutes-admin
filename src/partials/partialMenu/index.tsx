@@ -7,7 +7,9 @@ import { FaBusAlt } from "react-icons/fa";
 import { FaArrowRightArrowLeft } from "react-icons/fa6";
 import { RiMapPinRangeFill } from "react-icons/ri";
 import { HiOutlineTicket } from "react-icons/hi2";
-import { LuTicketsPlane } from "react-icons/lu";
+import { MdOutlineConfirmationNumber } from "react-icons/md";   
+import { FaTicketAlt } from "react-icons/fa";  
+
 
 import type { MenuProps } from 'antd';
 import { Menu } from 'antd';
@@ -66,7 +68,7 @@ const items: MenuItem[] = [
   {
     key: `/${admin}/month-ticket-prices`,
     label: "Giá Vé Tháng",
-    icon: <LuTicketsPlane  />
+    icon: <MdOutlineConfirmationNumber  />
   },
   {
     key: `/${admin}/one-way-ticket-prices`,
@@ -77,9 +79,18 @@ const items: MenuItem[] = [
     key: `/${admin}/customers`,
     label: "Khách hàng",
     icon: < FaUserFriends />
-  }
+  },
+  {
+    key: `/${admin}/month-tickets`,
+    label: "Vé Tháng",
+    icon: <MdOutlineConfirmationNumber  />
+  },
+  {
+    key: `/${admin}/one-way-tickets`,
+    label: "Vé Lượt",
+    icon: <HiOutlineTicket  />
+  },
 ];
-
 
 
 function PartialMenu() {

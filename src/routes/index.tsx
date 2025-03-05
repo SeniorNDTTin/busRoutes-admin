@@ -84,6 +84,20 @@ import CustomerCreate from "../pages/customers/create";
 import CustomerUpdate from "../pages/customers/update";
 import CustomerDetail from "../pages/customers/detail";
 
+// OneWayTickets
+import OneWayTicket from "../pages/oneWayTickets";
+import OneWayTicketList from "../pages/oneWayTickets/list";
+import OneWayTicketCreate from "../pages/oneWayTickets/create";
+import OneWayTicketUpdate from "../pages/oneWayTickets/update";
+import OneWayTicketDetail from "../pages/oneWayTickets/detail";
+
+// MonthTickets
+import MonthTicket from "../pages/monthTickets";
+import MonthTicketList from "../pages/monthTickets/list";
+import MonthTicketCreate from "../pages/monthTickets/create";
+import MonthTicketUpdate from "../pages/monthTickets/update";
+import MonthTicketDetail from "../pages/monthTickets/detail";
+
 function AppRoutes() {
   const admin = configs.prefixAdmin;
 
@@ -188,6 +202,23 @@ function AppRoutes() {
               <Route path="create" element={< CustomerCreate />} />
               <Route path="update/:id" element={< CustomerUpdate />} />
             </Route>
+
+            {/* OneWayTickets */}
+            <Route path="one-way-tickets" element={<OneWayTicket />}>
+              <Route path="" element={< OneWayTicketList />} />
+              <Route path="detail/:id" element={<OneWayTicketDetail/>} />
+              <Route path="create" element={< OneWayTicketCreate />} />
+              <Route path="update/:id" element={<OneWayTicketUpdate />} />
+            </Route>
+
+            {/* MonthTickets */}
+            <Route path="month-tickets" element={< MonthTicket />}>
+              <Route path="" element={< MonthTicketList />} />
+              <Route path="detail/:id" element={< MonthTicketDetail />} />
+              <Route path="create" element={< MonthTicketCreate />} />
+              <Route path="update/:id" element={< MonthTicketUpdate />} />
+            </Route>
+            
           </Route>
         </Routes>
       </BrowserRouter>

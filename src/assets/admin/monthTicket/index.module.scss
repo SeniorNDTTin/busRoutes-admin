@@ -1,0 +1,16 @@
+.expired-status {
+    font-weight: bold;
+    padding: 4px 8px;
+    border-radius: 4px;
+    display: inline-block;
+
+    &.expired {
+        color: red;
+        background-color: #ffebeb;
+    }
+
+    &.active {
+        color: green;
+        background-color: #e6ffe6;
+    }
+}

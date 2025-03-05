@@ -27,6 +27,11 @@ const del = async (id: string) => {
     return response;
 }
 
-const scheduleService = {get, getById , create , update, del}
+const findByBusRoute = async (busRouteId: string) => {
+  const response = (await request.get<IResponse<ISchedule[]>>(`/schedules/busRoute/${busRouteId}`)).data;
+  return response;
+}
+
+const scheduleService = {get, getById , create , update, del, findByBusRoute}
 
 export default scheduleService
