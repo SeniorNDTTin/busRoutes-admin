@@ -1,0 +1,48 @@
+.flex-container {
+    display: flex;
+    gap: 100px;
+}
+
+.flex-container > * {
+    flex: 1; /* Các input tự mở rộng */
+    min-width: 120px; 
+}
+
+.flex-container1 {
+    display: flex;
+    gap: 100px;
+    align-items: end; /* Căn giữa chiều dọc */
+}
+
+.flex-container1 > *:not(.btn-detail) {
+    flex: 0.55; /* Các input tự mở rộng */
+    min-width: 120px; 
+}
+
+.btn-detail {
+    background-color: #f57c00;
+    color: blanchedalmond;
+}
+
+.buttonContainer {
+    display: flex;
+    justify-content: space-around;
+    gap: 10px; 
+    margin-top: 20px; 
+    margin-right: 250px;
+}
+
+.renewButton {
+    margin-top: 30px;
+    background-color: #FF9800;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    font-weight: bold;
+}
+
+.renewButton:hover {
+    background-color: #f57c00; 
+}

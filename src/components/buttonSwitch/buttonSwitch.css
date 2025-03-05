@@ -1,0 +1,8 @@
+.switch-container {
+  margin-top: 50px; 
+  margin-left: 10px;
+}
+
+.switch-container .ant-switch {
+  transform: scale(1.2); /* Tăng kích thước */
+}
