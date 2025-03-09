@@ -8,7 +8,7 @@ import BoxSelect from "../../components/boxSelect";
 
 import IBusRoute from "../../interfaces/busRoute";
 import IOneWayTicketPrice from "../../interfaces/OneWayTicketPrices.ts";
-import oneWayTicketPriceService from "../../services/oneWayTicketPrices.ts";
+import oneWayTicketPriceService from "../../services/oneWayTicketPrices.service.ts";
 import busRouteService from "../../services/busRoute.service";
 
 function OneWayTicketPriceDetail() {

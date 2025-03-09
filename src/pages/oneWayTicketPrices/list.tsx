@@ -6,7 +6,7 @@ import ButtonNavigateUpdate from "../../components/buttonNavigateUpdate/index.ts
 import BoxNavigateCreate from "../../components/boxNavigateCreate/index.tsx";
 import IOneWayTicketPrice from "../../interfaces/OneWayTicketPrices.ts";
 
-import oneWayTicketPriceService from "../../services/oneWayTicketPrices.ts";
+import oneWayTicketPriceService from "../../services/oneWayTicketPrices.service.ts";
 import { toast } from "react-toastify";
 
 function OneWayTicketPriceList() {

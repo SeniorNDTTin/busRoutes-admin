@@ -10,7 +10,7 @@ import BoxSelect from "../../components/boxSelect";
 
 import configs from "../../configs";
 import busRouteService from "../../services/busRoute.service";
-import oneWayTicketPriceService from "../../services/oneWayTicketPrices.service.ts";
+import oneWayTicketPriceService from "../../services/oneWayTicketPrices.service";
 
 import IBusRoute from "../../interfaces/busRoute";
 
