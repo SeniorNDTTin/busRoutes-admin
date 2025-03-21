@@ -13,22 +13,23 @@ import styles from "../../assets/admin/monthTicket/index.module.scss";
 import IMonthTicket from "../../interfaces/monthTicket";
 import monthTicketService from "../../services/monthTicket.service";
 import customerService from "../../services/customer.service";
+import ticketDetailService from "../../services/ticketDetail.service";
 
 function MonthTicketList() {
     const [reload, setReload] = useState(false);
 
     const [monthTickets, setMonthTickets] = useState<IMonthTicket[]>([]);
-    
+
     useEffect(() => {
         const fetchApi = async () => {
             const monthTickets = (await monthTicketService.get()).data;
 
             const monthTicketDetailed = await Promise.all(
                 monthTickets.map(async (ticket) => {
-                  const customer = (await customerService.getById(ticket.customerId)).data;
-                  return { ...ticket, customerName: customer.fullName };
+                    const customer = (await customerService.getById(ticket.customerId)).data;
+                    return { ...ticket, customerName: customer.fullName };
                 })
-              );
+            );
 
             setMonthTickets(monthTicketDetailed);
         }
@@ -40,10 +41,16 @@ function MonthTicketList() {
     }
 
     const handleDel = async (id: string) => {
-        if(confirm("Bạn chắc chứ?")) {
-            const response = await monthTicketService.del(id);
+        if (confirm("Bạn chắc chứ?")) {
+            const resTicket = await monthTicketService.del(id);
+            if (resTicket.code !== 200) {
+                toast.error("Có lỗi xảy ra!");
+                return;
+            }
 
-            if(response.code !== 200) {
+            const ticketDetail = (await ticketDetailService.findByOneWayTicketId(id as string)).data;
+            const resTicketDetail = await ticketDetailService.del(ticketDetail._id);
+            if (resTicketDetail.code !== 200) {
                 toast.error("Có lỗi xảy ra!");
                 return;
             }
@@ -104,15 +111,15 @@ function MonthTicketList() {
             dataIndex: "action",
             key: "action",
             render: (_, record) => {
-              const id = record._id;
-      
-              return (
-                <Space>
-                  <ButtonNavigateDetail id={id} />
-                  <ButtonNavigateUpdate id={id} />
-                  <Button type="primary" className="button-danger" onClick={() => handleDel(id)}>Xóa</Button>
-                </Space>
-              );
+                const id = record._id;
+
+                return (
+                    <Space>
+                        <ButtonNavigateDetail id={id} />
+                        <ButtonNavigateUpdate id={id} />
+                        <Button type="primary" className="button-danger" onClick={() => handleDel(id)}>Xóa</Button>
+                    </Space>
+                );
             }
         }
     ];
@@ -120,7 +127,7 @@ function MonthTicketList() {
     return (
         <>
             <BoxHead title="Danh Sách Vé Tháng" />
-            
+
             <BoxNavigateCreate />
 
             <Table dataSource={monthTickets} columns={columns} />
