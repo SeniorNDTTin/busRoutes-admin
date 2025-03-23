@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
-import { Space, TimePicker ,TimePickerProps,Input} from 'antd';
+import { Space, TimePicker ,TimePickerProps,Input, Checkbox} from 'antd';
 
 import BoxHead from "../../components/boxHead";
 import BoxInputBusRoute from "../../components/boxInputBusRoute";
@@ -39,24 +39,40 @@ function BusRouteCreate() {
   });
 
   const [busStop, setBusSTop] = useState<IBusStop[]>([])
-  const [direction, setDirection] = useState<IDirection[]>([]);
-  const [selectedDirection, setSelectedDirection] = useState("");
+  const [direction, setDirection] = useState("");
+  const [directionReturn, setDirectionReturn] = useState("");
   const [selectedValues, setSelectedValues] = useState<string[]>([]);
+  const [selectedValuesReturn, setSelectedValuesReturn] = useState<string[]>([]);
 
   useEffect(() => {
       const api = async() =>{
           const stop =   (await busStopService.get()).data
           const direction = (await directionService.get()).data
+          const directionGo = direction.find(value => value.description === 'Lượt đi');
+          const directionReturn = direction.find(value => value.description === 'Lượt về');
+
+          if (directionGo) setDirection(directionGo._id);
+          if (directionReturn) setDirectionReturn(directionReturn._id);
+
           setBusRoute((prev) => ({
             ...prev,
             time: `${startTime} - ${endTime}`
           }));
           setBusSTop(stop)
-          setDirection(direction)
+         
       }
       api()
   },[])
 
+  useEffect(() => {
+    if (selectedValues.length === 0 && checkDeselect) {
+      setTimeout(() => setCheckDeselect(false), 250);
+    }
+    if (selectedValuesReturn.length === 0 && checkDeselectReturn) {
+      setTimeout(() => setCheckDeselectReturn(false), 250);
+    }
+  }, [selectedValues, selectedValuesReturn]);
+  
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setBusRoute({
@@ -65,9 +81,6 @@ function BusRouteCreate() {
     });
   };
 
-  const handleChangeSelect = (value: string) =>{
-    setSelectedDirection(value)
-  }
 
   const [startTime, setStartTime] = useState("12:00 AM")
   const [endTime, setEndTime] = useState("12:00 PM")
@@ -103,18 +116,53 @@ function BusRouteCreate() {
           }))
   };
 
+  const [checkDeselect, setCheckDeselect] = useState(false)
+  const deSelect = () => {
+    setCheckDeselect(true)
+    setSelectedValues([]);
+    setOrderMap(new Map());
+  }
 
   const [orderMap, setOrderMap] = useState<Map<string, number>>(new Map());
   const onCheckBox = (checkedValues: string[]) => {
     setSelectedValues(checkedValues)
 
-    let newOrderMap = new Map<string, number>();
+    const newOrderMap = new Map<string, number>();
     checkedValues.forEach((value, index) => {
       newOrderMap.set(value, index + 1);
     });
   
     setOrderMap(newOrderMap);
-    // console.log(checkedValues)
+
+      const reversedValues = [...checkedValues].reverse()
+      setSelectedValuesReturn(reversedValues)
+
+      const reversedOrderMap = new Map<string, number>()
+        reversedValues.forEach((value , index) =>{
+          reversedOrderMap.set(value , index + 1)
+        })
+        setOrderMapReturn(reversedOrderMap);
+    
+  };
+  
+  const [checkDeselectReturn, setCheckDeselectReturn] = useState(false)
+  const deSelectReturn = () => {
+    setCheckDeselectReturn(true)
+    setSelectedValuesReturn([]);
+    setOrderMapReturn(new Map());
+  }
+
+  const [orderMapReturn, setOrderMapReturn] = useState<Map<string, number>>(new Map());
+  const onCheckBoxReturn = (checkedValues: string[]) => {
+   
+    setSelectedValuesReturn(checkedValues)
+
+    const newOrderMap = new Map<string, number>();
+    checkedValues.forEach((value, index) => {
+      newOrderMap.set(value, index + 1);
+    });
+  
+    setOrderMapReturn(newOrderMap);
   };
   
 
@@ -131,75 +179,88 @@ function BusRouteCreate() {
       return Math.round(R * c); 
   };
 
-  const handleSubmit = async () => {
-    const data = {...busRoute}
 
-    if(!busRoute.name || !busRoute.timeBetweenTwoFlight){
-        toast.error("Vui lòng không bỏ trống thông tin!");
-        return;
-    }
-
-    if(busRoute.fullPrice <= 0){
-        toast.error("Giá tiền chưa hợp lệ !");
-        return
-    }
-
-    if (!selectedDirection) {
-      toast.error("Vui lòng chọn phương hướng!");
-      return;
-    }
+const handleSubmit = async () => {
+        const data = {...busRoute}
   
-    if (selectedValues.length < 2) {
-      toast.error("Vui lòng chọn ít nhất 2 trạm dừng!");
-      return;
-    }
+        if (selectedValues.length === 0 && selectedValuesReturn.length === 0) {
+              toast.error("Vui lòng chọn ít nhất 1 chiều !")
+              return
+        }else if(  (selectedValues.length > 0 && selectedValues.length < 2) ||   (selectedValuesReturn.length > 0 && selectedValuesReturn.length < 2) ){
+          toast.error("Vui lòng chọn tối thiểu 2 trạm dừng!");
+          return;
+        }
+        
+        if(!busRoute.name || !busRoute.timeBetweenTwoFlight){
+          toast.error("Vui lòng không bỏ trống thông tin!");
+          return;
+      }
 
-    const res = await (await busRouteService.create(data))
-    if (res.code !== 201) {
-        toast.error("Có lỗi xảy ra!");
-        return;
-    }
-     const stopList = await Promise.all(
-          selectedValues.map(async (id) => {
-              return (await busStopService.getById(id)).data
-          })
-     )
+      if(busRoute.fullPrice <= 0){
+          toast.error("Giá tiền chưa hợp lệ !");
+          return
+      }
 
-     const busRouteId = res.data._id
-     const directionId = selectedDirection;
-
-     let full = 0
-     for(const [index, stop] of stopList.entries()){
-          const distancePre = index === 0 ?  0 : haversineDistance(stopList[index - 1].latitude, stopList[index - 1].longitude, stop.latitude , stop.longitude);
-          const busRouteDetailData = {
-            orderNumber: index + 1,
-            distancePre,
-            busRouteId,
-            busStopId: stop._id,
-            directionId,
+        const res = await (await busRouteService.create(data))
+          if (res.code !== 201) {
+             console.log("lỗi tạo tuyến", res)
+              toast.error("Có lỗi xảy ra, vui lòng thử lại sau!");
+              return;
           }
-          try {
-            const detail = await busRouteDetailService.create(busRouteDetailData);
-            if (detail.code !== 201) {
+
+          const busRouteId = res.data._id
+
+          toast.info("Vui lòng chờ giây lát !!", {
+            autoClose: 1500, 
+          });
+          
+          const createBusRouteDetails = async (stops : string[], directionId : string)  =>{
+            const stopList = await Promise.all(
+                  stops.map(async (id: string) => {
+                    return (await busStopService.getById(id)).data
+                })
+            )
+            
+            let full = 0
+            for(const [index, stop] of stopList.entries()){
+              const distancePre = index === 0 ?  0 : haversineDistance(stopList[index - 1].latitude, stopList[index - 1].longitude, stop.latitude , stop.longitude);
+              const busRouteDetailData = {
+                orderNumber: index + 1,
+                distancePre,
+                busRouteId,
+                busStopId: stop._id,
+                directionId,
+              }
+
+              const detail = await busRouteDetailService.create(busRouteDetailData);
+                if (detail.code !== 201) {
+                  console.log("thêm chi tiết tuyến không thành công", detail)
+                  toast.error("Có lỗi xảy ra!");
+                  return;
+                }
+                full += distancePre
+            }
+
+            const updateBusRoute = (await busRouteService.update(res.data._id,{fullDistance : full}))
+            if (updateBusRoute.code !== 200) {
+              console.log("cập nhật tuyến không thành công", updateBusRoute)
               toast.error("Có lỗi xảy ra!");
               return;
             }
-            full += distancePre
-          } catch (error) {
-              console.error("Lỗi:", error);
           }
-     }
 
-     const updateBusRoute = (await busRouteService.update(res.data._id,{fullDistance : full}))
-     if (updateBusRoute.code !== 200) {
-      toast.error("Có lỗi xảy ra!");
-      return;
-    }
+          if (selectedValues.length > 1) {
+              await createBusRouteDetails(selectedValues, direction);
+          }
+          if (selectedValuesReturn.length > 1) {
+              await createBusRouteDetails(selectedValuesReturn, directionReturn);
+          }
+          
+          toast.success("Tạo mới thành công");
+          navigate(`/${configs.prefixAdmin}/bus-routes/update-information`);
 
-    toast.success("Tạo mới thành công");
-    navigate(`/${configs.prefixAdmin}/bus-routes/update-information`);
-
-  }
+     
+}
 
   return (
     <>
@@ -230,10 +291,10 @@ function BusRouteCreate() {
                         </div>
                         <div className={styles.timePicker}>
                               <Space wrap>
-                                  <TimePicker style={{ width: "115px" }} value={dayjs(startTime, "h:mm A")} use12Hours format="h:mm A" name="startTime" onChange={onChangeStartTime}  allowClear={false} />
+                                  <TimePicker style={{ width: "115px" }} value={dayjs(startTime, "h:mm A")} use12Hours format="h:mm A" name="startTime" onChange={onChangeStartTime}  allowClear={false} inputReadOnly ={true}/>
                             </Space>
                             <Space wrap>
-                                    <TimePicker style={{ width: "115px" }} value={dayjs(endTime, "h:mm A")} use12Hours format="h:mm A" name="endTime" onChange={onChangeEndTime}  allowClear={false} />
+                                    <TimePicker style={{ width: "115px" }} value={dayjs(endTime, "h:mm A")} use12Hours format="h:mm A" name="endTime" onChange={onChangeEndTime}  allowClear={false} inputReadOnly ={true}/>
                               </Space>
                         </div>
                   </div>
@@ -252,7 +313,7 @@ function BusRouteCreate() {
                         </div>
 
                         <Space wrap>
-                            <TimePicker style={{ width: "240px" }} value={dayjs(busRoute.firstFlightStartTime, "h:mm A")} use12Hours format="h:mm A" name="firstFlightStartTime" onChange={onChange}  allowClear={false} />
+                            <TimePicker style={{ width: "240px" }} value={dayjs(busRoute.firstFlightStartTime, "h:mm A")} use12Hours format="h:mm A" name="firstFlightStartTime" onChange={onChange}  allowClear={false} inputReadOnly ={true}/>
                       </Space>
                     </div>
 
@@ -263,21 +324,37 @@ function BusRouteCreate() {
                           </div>
 
                           <Space wrap>
-                              <TimePicker style={{ width: "240px" }} value={dayjs(busRoute.lastFlightStartTime, "h:mm A")} use12Hours format="h:mm A" name="firstFlightStartTime" onChange={onChangeEnd}  allowClear={false} />
+                              <TimePicker style={{ width: "240px" }} value={dayjs(busRoute.lastFlightStartTime, "h:mm A")} use12Hours format="h:mm A" name="firstFlightStartTime" onChange={onChangeEnd}  allowClear={false} inputReadOnly ={true} />
                           </Space>
                     </div>
               </div>
               
               <div className={styles.listDistance}>
-                  <div className={styles.busStop}>            
-                      <CheckBox options={busStop.map((item) => ({ value: item._id, label: item.name }))} selectedValues={selectedValues} onCheck={onCheckBox} orderMap={orderMap}/>
+                  <div className={styles.busStop}>    
+                      <div className={styles.direction1}>  
+                          <div className={styles.turn}>Lượt đi: </div>       
+                          <Checkbox className={styles.deselect1}disabled={selectedValues.length === 0}  onClick={deSelect} checked={checkDeselect}>Bỏ chọn</Checkbox>
+                      </div> 
+
+                          <CheckBox options={busStop.map((item) => ({ value: item._id, label: item.name }))} selectedValues={selectedValues} onCheck={onCheckBox} orderMap={orderMap}/>
                   </div>
               </div>
+
+              <div className={styles.listDistance}>
+                  <div className={styles.busStop}>     
+                      <div className={styles.direction1}>
+                        <div className={styles.return}>Lượt về: </div>     
+                          <Checkbox className={styles.deselect2} disabled={selectedValuesReturn.length === 0}  onClick={deSelectReturn} checked={checkDeselectReturn}>Bỏ chọn</Checkbox>
+                      </div>
+                      
+                      <CheckBox options={busStop.map((item) => ({ value: item._id, label: item.name }))} selectedValues={selectedValuesReturn} onCheck={onCheckBoxReturn} orderMap={orderMapReturn}/>
+                  </div>
+              </div> 
             
               <div className={styles.list_tool}>
-                    <div className={styles.distance}>
+                    {/* <div className={styles.distance}>
                         <BoxSelectBR value={selectedDirection} style={{ width : '100%'}} label="Phương Hướng" options={direction?.map(item => ({ value: item._id, label: item.description })) || []} onChange={ handleChangeSelect}/>
-                    </div>
+                    </div> */}
 
                     <div className={styles.tool}>
                           <BoxCreate onClick={handleSubmit} /> 

@@ -17,27 +17,56 @@ import busStopService from "../../services/busStop.service";
 import IBusStop from "../../interfaces/busStop";
 
 import styles from "../../assets/admin/busRoute/busRoute.module.scss"
+import directionService from "../../services/direction.service";
+import BusStopList from "../busStops/list";
 
 function BusRouteDetail() {
   const { id } = useParams();
   const[busRoute, setBusRoute] = useState<Partial<IBusRoute>>({});
   const[busRouteDetail, setBusRouteDetail] = useState<IBusRouteDetail []>([])
-  const [busStop, setBusSTop] = useState<IBusStop[]>([])
+  const [busStop, setBusStop] = useState<IBusStop[]>([])
+  const [busStopReturn, setBusStopReturn] = useState<IBusStop[]>([])
 
   useEffect(() => {
     const  fetchApi = async () => {
-         const BusRoute = (await busRouteService.getById(id as string)).data
-         setBusRoute(BusRoute)
-          const detail = (await busRouteDetailService.getByRouteId(id as string)).data 
-          setBusRouteDetail(detail);  
+      const [BusRoute , detail, direction] = await Promise.all([
+        busRouteService.getById(id as string),
+        busRouteDetailService.getByRouteId(id as string),
+        directionService.get()
+      ])
 
-          const detailList = await Promise.all(
-              detail.map(async (item) => {
-                  return (await busStopService.getById(item.busStopId)).data
-              })
-          )
-          setBusSTop(detailList)
+      setBusRoute(BusRoute?.code === 200 ? BusRoute.data : busRoute); 
+      setBusRouteDetail(detail?.code === 200 ? detail.data : busRouteDetail);
 
+      if(direction.code === 200){
+        const directionGo = direction.data.find(value => value.description === 'Lượt đi')
+        const directionReturn = direction.data.find(value => value.description === 'Lượt về')   
+        
+        const infoStop  = async (directionId : string)=>{
+          if(detail?.data){
+
+            return await Promise.all(
+                detail.data
+                .filter(dir => dir.directionId === directionId)
+                .map(async item => {
+                  return (await busStopService.getById(item.busStopId)).data;
+                })
+            )
+          }
+          return [];
+        }
+
+        if(directionGo){
+          const detailListGo = await infoStop(directionGo._id)
+          setBusStop(detailListGo)
+        }
+
+        if(directionReturn){
+          const detailListReturn = await infoStop(directionReturn._id)
+          setBusStopReturn(detailListReturn)
+        }
+     
+      }  
      }
      fetchApi()
   },[id])
@@ -121,7 +150,7 @@ function BusRouteDetail() {
                             <span>Lượt Về : </span>
                   </div>
                   <div className={styles.busStop}>          
-                      {busStop.slice().reverse().map((value, index) => 
+                      {busStopReturn.map((value, index) => 
                           <div className={styles.item1}>
                               <div className={styles.index}>{index + 1}</div>
                               <div className={styles.name}>{value.name}</div>

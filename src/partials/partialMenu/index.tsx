@@ -48,7 +48,7 @@ const items: MenuItem[] = [
   },
   {
     key: `/${admin}/directions`,
-    label: "Tuyến Đường",
+    label: "Hướng di chuyển",
     icon: <FaArrowRightArrowLeft />
   },
   {
