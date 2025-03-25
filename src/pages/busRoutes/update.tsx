@@ -45,11 +45,13 @@ function BusRouteUpdate() {
   const [busStop, setBusStop] = useState<IBusStop[]>([])
   const [busRouteDetail, setBusRouteDetail] = useState<IBusRouteDetail[]>([])
   const [busRouteDetailReturn, setBusRouteDetailReturn] = useState<IBusRouteDetail[]>([])
+
   const [selectedValues, setSelectedValues] = useState<string[]>([]);
   const [selectedValuesReturn, setSelectedValuesReturn] = useState<string[]>([]);
+
   const [direction , setDirection] = useState("")
   const [directionReturn, setDirectionReturn] = useState("")
-  const [selectedDirection , setSelectedDirection] = useState("")
+
   const [orderMap, setOrderMap] = useState<Map<string, number>>(new Map());
   const [orderMapReturn, setOrderMapReturn] = useState<Map<string, number>>(new Map());
 
@@ -323,6 +325,7 @@ function BusRouteUpdate() {
 
         if (newDetails) setBusRouteDetail(newDetails);
       }
+
       if (selectedValuesReturn.length > 1) {
         const newDetailsReturn = await createBusRouteDetails(selectedValuesReturn, directionReturn);
 
@@ -414,7 +417,6 @@ function BusRouteUpdate() {
                           <Checkbox className={styles.deselect2} disabled={selectedValuesReturn.length === 0}  onClick={deSelectReturn} checked={checkDeselectReturn}>Bỏ chọn</Checkbox>
                       </div>
                       
-
                       <CheckBox options={busStop.map((item) => ({ value: item._id, label: item.name }))} selectedValues={selectedValuesReturn} onCheck={onCheckBoxReturn} orderMap={orderMapReturn}/>
                   </div>
               </div>
