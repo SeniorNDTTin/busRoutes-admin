@@ -1,6 +1,6 @@
 import { useNavigate, useParams } from "react-router-dom"
-import { useState,useEffect } from "react";
-import { Space, TimePicker ,TimePickerProps} from 'antd';
+import { useState, useEffect } from "react";
+import { Space, TimePicker, TimePickerProps } from 'antd';
 
 import IBusRoute from "../../interfaces/busRoute";
 import IBus from "../../interfaces/bus";
@@ -18,14 +18,15 @@ import dayjs from "dayjs";
 import { toast } from "react-toastify";
 
 import styles from "../../assets/admin/schedule/update.module.scss"
+import BoxHead from "../../components/boxHead";
 
-const ScheduleUpdate = () =>{
-    const {id} = useParams()
-    const[schedule, setSchedule ] = useState({
-        timeStart : "12:00 AM",
-        timeEnd :  "12:00 PM",
+const ScheduleUpdate = () => {
+    const { id } = useParams()
+    const [schedule, setSchedule] = useState({
+        timeStart: "12:00 AM",
+        timeEnd: "12:00 PM",
         busId: "",
-        busRouteId : ""
+        busRouteId: ""
     });
     const [busRoute, setBusRoute] = useState<IBusRoute[]>([]);
     const [bus, setBus] = useState<IBus[]>([]);
@@ -33,7 +34,7 @@ const ScheduleUpdate = () =>{
     useEffect(() => {
         const fetchApi = async () => {
             const schedule = (await scheduleService.getById(id as string)).data
-            if(schedule){
+            if (schedule) {
                 setSchedule(schedule)
                 const BusRoute = (await busRouteService.get()).data
                 setBusRoute(BusRoute)
@@ -47,83 +48,85 @@ const ScheduleUpdate = () =>{
 
     const handleChange = (name: string, value: string | number) => {
         setSchedule((prev) => ({
-          ...prev,
-          [name]: value, 
+            ...prev,
+            [name]: value,
         }));
-    };   
+    };
 
-    const onChange: TimePickerProps['onChange'] = (time,timeString) => {
+    const onChange: TimePickerProps['onChange'] = (time, timeString) => {
         setSchedule((prev) => ({
             ...prev,
             timeStart: Array.isArray(timeString) ? timeString[0] : timeString,
-           
+
         }))
         // console.log(timeString)
     };
 
-    const onChangeEnd: TimePickerProps['onChange'] = (time,timeString) => {
+    const onChangeEnd: TimePickerProps['onChange'] = (time, timeString) => {
         setSchedule((prev) => ({
             ...prev,
             timeEnd: Array.isArray(timeString) ? timeString[0] : timeString,
-           
+
         }))
         // console.log(timeString)
     };
 
     const nav = useNavigate()
-    const handleSubmit = async() => {
-        const data = {...schedule}
+    const handleSubmit = async () => {
+        const data = { ...schedule }
 
-        try{
-            const res = (await scheduleService.update(id as string,data))
-            
+        try {
+            const res = (await scheduleService.update(id as string, data))
+
             if (res.code === 200) {
                 toast.success("Cập nhật thành công")
                 nav(`/${configs.prefixAdmin}/schedules`);
-            }else{
+            } else {
                 toast.error(res.message)
             }
-        }catch{
+        } catch {
             toast.error("Có lỗi xảy ra !!")
-            
+
         }
     }
 
-    return(
+    return (
         <>
             <GoBack />
-           
+
+            <BoxHead title="Cập Nhật Lịch Trình" />
+
             <div className={styles.busRoutes}>
                 <div className={styles.busRoutes_wrapper}>
                     <div className={styles.list}>
                         <div className={styles.item}>
-                            <BoxSelect  value={schedule.busRouteId} label="Tuyến" options={busRoute?.map(item => ({ value: item._id, label: item.name })) || []} onChange={(value) => handleChange("busRouteId", value)}/>
+                            <BoxSelect value={schedule.busRouteId} label="Tuyến" options={busRoute?.map(item => ({ value: item._id, label: item.name })) || []} onChange={(value) => handleChange("busRouteId", value)} />
                         </div>
                         <div className={styles.item}>
-                            <BoxSelect value={schedule.busId} label="Xe Bus" options={bus?.map(item => ({ value: item._id, label: item.licensePlate })) || []} onChange={(value) => handleChange("busId", value)}/>
+                            <BoxSelect value={schedule.busId} label="Xe Bus" options={bus?.map(item => ({ value: item._id, label: item.licensePlate })) || []} onChange={(value) => handleChange("busId", value)} />
                         </div>
                     </div>
 
                     <div className={styles.list}>
                         <div className={styles.time}>
                             <div className={styles.timeItem}>
-                                    <p style={{fontWeight : 'bold'}}>Giờ Bắt Đầu</p>
+                                <p style={{ fontWeight: 'bold' }}>Giờ Bắt Đầu</p>
                             </div>
                             <div className={styles.timePicker}>
                                 <Space wrap>
-                                    <TimePicker style={{ width: "361px" }} value={dayjs(schedule.timeStart, "h:mm A")} use12Hours format="h:mm A" name="timeStart" onChange={onChange} allowClear={false}  />
+                                    <TimePicker style={{ width: "361px" }} value={dayjs(schedule.timeStart, "h:mm A")} use12Hours format="h:mm A" name="timeStart" onChange={onChange} allowClear={false} />
                                 </Space>
                             </div>
                         </div>
 
                         <div className={styles.time}>
                             <div className={styles.timeItem}>
-                                <p style={{fontWeight : 'bold'}}>Giờ Kết Thúc</p>
+                                <p style={{ fontWeight: 'bold' }}>Giờ Kết Thúc</p>
                             </div>
 
                             <div className={styles.timePicker}>
                                 <Space wrap >
-                                    <TimePicker style={{ width: "361px" }} value={dayjs(schedule.timeEnd, "h:mm A")} use12Hours format="h:mm A  " name="timeEnd" onChange={onChangeEnd} allowClear={false}  />
+                                    <TimePicker style={{ width: "361px" }} value={dayjs(schedule.timeEnd, "h:mm A")} use12Hours format="h:mm A  " name="timeEnd" onChange={onChangeEnd} allowClear={false} />
                                 </Space>
                             </div>
                         </div>

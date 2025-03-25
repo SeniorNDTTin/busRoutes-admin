@@ -25,7 +25,7 @@ function DirectionDetail() {
     <>
       <GoBack />
 
-      <BoxHead title="Chi Tiết Tuyến Đường" />
+      <BoxHead title="Chi Tiết Hướng" />
 
       <BoxInput label="Mô tả" value={description} onChange={() => {}} />
     </>

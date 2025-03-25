@@ -40,7 +40,7 @@ function DirectionCreate() {
     <>
       <GoBack />
 
-      <BoxHead title="Tạo Mới Tuyến Đường" />
+      <BoxHead title="Tạo Mới Hướng" />
 
       <BoxInput label="Mô tả" value={description} onChange={onChangeDescription} />
 

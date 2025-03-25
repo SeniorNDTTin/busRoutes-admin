@@ -25,11 +25,13 @@ function MonthTicketPriceList() {
       const monthTicketPricesDetailed = await Promise.all(
         monthTicketPrices.map(async (ticket) => {
           const busRoute = (await busRouteService.getById(ticket.busRouteId)).data;
+          console.log(busRoute);
+
           return { ...ticket, busRouteName: busRoute.name };
         })
       );
 
-      setMonthTicketPrices(monthTicketPricesDetailed );
+      setMonthTicketPrices(monthTicketPricesDetailed);
     }
     fetchApi();
   }, [reload]);

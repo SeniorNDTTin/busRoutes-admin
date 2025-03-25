@@ -46,7 +46,7 @@ function DistrictUpdate() {
     <>
       <GoBack />
 
-      <BoxHead title="Cập Nhật Địa Chỉ" />
+      <BoxHead title="Cập Nhật Quận/Huyện" />
 
       <BoxInput label="Tên" value={name} onChange={onChangeName} />
 
