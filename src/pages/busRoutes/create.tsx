@@ -23,6 +23,7 @@ import styles from "../../assets/admin/busRoute/create.module.scss"
 import configs from "../../configs";
 import dayjs from "dayjs";
 import directionService from "../../services/direction.service";
+import mapboxgl from 'mapbox-gl';
 
 function BusRouteCreate() {
     
@@ -179,7 +180,20 @@ function BusRouteCreate() {
       return Math.round(R * c); 
   };
 
-
+  mapboxgl.accessToken = 'pk.eyJ1IjoibmdodWllbiIsImEiOiJjbThsemZrbzEwYzE0Mmlwd21ud3JicXZnIn0.8Jpx_wzZc_A3j_5a6pLIfw';
+  const getDrivingDistance = async (lat1: number, lng1: number, lat2: number, lng2: number): Promise<number> => {
+    const url = `https://api.mapbox.com/directions/v5/mapbox/driving/${lng1},${lat1};${lng2},${lat2}?access_token=${mapboxgl.accessToken}&geometries=geojson`;
+  
+    const response = await fetch(url);
+    const data = await response.json();
+  
+    if (data.routes && data.routes.length > 0) {
+      return data.routes[0].distance; 
+    }
+  
+    return 0
+  };
+  
 const handleSubmit = async () => {
         const data = {...busRoute}
   
@@ -223,7 +237,7 @@ const handleSubmit = async () => {
             
             let full = 0
             for(const [index, stop] of stopList.entries()){
-              const distancePre = index === 0 ?  0 : haversineDistance(stopList[index - 1].latitude, stopList[index - 1].longitude, stop.latitude , stop.longitude);
+              const distancePre = index === 0 ?  0 : (await getDrivingDistance(stopList[index - 1].latitude, stopList[index - 1].longitude, stop.latitude , stop.longitude)) ;
               const busRouteDetailData = {
                 orderNumber: index + 1,
                 distancePre,
@@ -241,7 +255,7 @@ const handleSubmit = async () => {
                 full += distancePre
             }
 
-            const updateBusRoute = (await busRouteService.update(res.data._id,{fullDistance : full}))
+            const updateBusRoute = (await busRouteService.update(res.data._id,{fullDistance : Math.round(full / 1000)}))
             if (updateBusRoute.code !== 200) {
               console.log("cập nhật tuyến không thành công", updateBusRoute)
               toast.error("Có lỗi xảy ra!");

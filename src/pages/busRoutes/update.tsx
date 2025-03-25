@@ -26,6 +26,8 @@ import IDirection from "../../interfaces/direction";
 import styles from "../../assets/admin/busRoute/update.module.scss"
 import dayjs from "dayjs";
 
+import mapboxgl from 'mapbox-gl';
+
 
 function BusRouteUpdate() {
   const { id } = useParams();
@@ -239,17 +241,18 @@ function BusRouteUpdate() {
     setOrderMapReturn(newOrderMap);
   };
   
-  const haversineDistance = (lat1: number, long1: number, lat2: number, long2: number) => {
-    const toRad = (angle: number) => (angle * Math.PI) / 180;
-    const R = 6371; 
+  mapboxgl.accessToken = 'pk.eyJ1IjoibmdodWllbiIsImEiOiJjbThsemZrbzEwYzE0Mmlwd21ud3JicXZnIn0.8Jpx_wzZc_A3j_5a6pLIfw';
+  const getDrivingDistance = async (lat1: number, lng1: number, lat2: number, lng2: number): Promise<number> => {
+    const url = `https://api.mapbox.com/directions/v5/mapbox/driving/${lng1},${lat1};${lng2},${lat2}?access_token=${mapboxgl.accessToken}&geometries=geojson`;
   
-    const dLat = toRad(lat2 - lat1);
-    const dLong = toRad(long2 - long1);
+    const response = await fetch(url);
+    const data = await response.json();
   
-    const a =Math.sin(dLat / 2) * Math.sin(dLat / 2) +Math.cos(toRad(lat1)) * Math.cos(toRad(lat2)) * Math.sin(dLong / 2) * Math.sin(dLong / 2);
+    if (data.routes && data.routes.length > 0) {
+      return data.routes[0].distance; 
+    }
   
-    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-    return Math.round(R * c); 
+    return 0
   };
   
 
@@ -284,7 +287,7 @@ function BusRouteUpdate() {
         let full = 0
         const newDetails = [];
         for(const [index, stop] of stopList.entries()){
-          const distancePre = index === 0 ?  0 : haversineDistance(stopList[index - 1].latitude, stopList[index - 1].longitude, stop.latitude , stop.longitude);
+          const distancePre = index === 0 ?  0 : (await getDrivingDistance(stopList[index - 1].latitude, stopList[index - 1].longitude, stop.latitude , stop.longitude)) ;
           const busRouteDetailData = {
             orderNumber: index + 1,
             distancePre,
@@ -303,7 +306,7 @@ function BusRouteUpdate() {
             newDetails.push(detail.data);
         }
         
-        const data = { ...busRoute,fullPrice: busRoute.fullPrice, fullDistance: full };
+        const data = { ...busRoute,fullPrice: busRoute.fullPrice, fullDistance: Math.round(full / 1000) };
          const res = await busRouteService.update(id as string, data);
         if (res.code !== 200) {
           console.log("cập nhật tuyến không thành công", res)
