@@ -1,0 +1,50 @@
+.dashboard {
+    padding: 20px;
+
+    &__title {
+        font-size: 36px;
+    }
+
+    @media (max-width: 575.98px) {
+        &__title {
+            font-size: 28px;
+        }
+    }
+
+    .dashboard-chart {
+        padding: 10px;
+
+        &__title {
+            text-align: center;
+            font-size: 36px;
+            color: #CD201F;
+        }
+
+        @media (max-width: 575.98px) {
+            &__title {
+                font-size: 28px;
+            }
+        }
+    }
+
+    .dashboard-chart__title {
+        font-weight: bold;
+        text-align: center;
+        margin-bottom: 20px;
+        color: forestgreen;
+    }
+
+}
+
+.chart-container {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.chart-box {
+    background: #fff;
+    padding: 10px;
+    border-radius: 8px;
+    margin-bottom: 50px;
+}

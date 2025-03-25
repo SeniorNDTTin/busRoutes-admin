@@ -24,7 +24,7 @@ function OneWayTicketList() {
   useEffect(() => {
     const fetchApi = async () => {
       const oneWayTickets = (await oneWayTicketService.get()).data;
-      const oneWayTicketsDetailed  = await Promise.all(
+      const oneWayTicketsDetailed = await Promise.all(
         oneWayTickets.map(async (ticket) => {
           const detail = (await ticketDetailService.findByOneWayTicketId(ticket._id)).data;
           const schedule = (await scheduleService.getById(detail.scheduleId)).data;
@@ -44,9 +44,15 @@ function OneWayTicketList() {
 
   const handleDel = async (id: string) => {
     if (confirm("Bạn chắc chứ?")) {
-      const response = await oneWayTicketService.del(id);
+      const resTicket = await oneWayTicketService.del(id);
+      if (resTicket.code !== 200) {
+        toast.error("Có lỗi xảy ra!");
+        return;
+      }
 
-      if (response.code !== 200) {
+      const ticketDetail = (await ticketDetailService.findByOneWayTicketId(id as string)).data;
+      const resTicketDetail = await ticketDetailService.del(ticketDetail._id);
+      if (resTicketDetail.code !== 200) {
         toast.error("Có lỗi xảy ra!");
         return;
       }
@@ -91,7 +97,7 @@ function OneWayTicketList() {
       render: (_, record) => {
         const { timeStart, timeEnd } = record as any;
         return timeStart && timeEnd ? `${timeStart} - ${timeEnd}` : "Chưa xác định"; // Kết hợp timeStart và timeEnd khi hiển thị
-      },    
+      },
     },
     {
       title: "Bus",
