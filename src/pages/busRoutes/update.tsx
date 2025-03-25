@@ -279,6 +279,8 @@ function BusRouteUpdate() {
     toast.info("Vui lòng chờ giây lát !!", {
       autoClose: 1500, 
     });
+
+      let isFirstUpdate = true;
       const createBusRouteDetails = async (stops : string[], directionId : string)  =>{
         const stopList = await Promise.all(
               stops.map(async (id: string) => {
@@ -308,13 +310,17 @@ function BusRouteUpdate() {
             newDetails.push(detail.data);
         }
         
-        const data = { ...busRoute,fullPrice: busRoute.fullPrice, fullDistance: Math.round(full / 1000) };
-         const res = await busRouteService.update(id as string, data);
-        if (res.code !== 200) {
-          console.log("cập nhật tuyến không thành công", res)
-          toast.error("Có lỗi xảy ra!");
-          return;
+        if (isFirstUpdate) {
+            const data = { ...busRoute,fullPrice: busRoute.fullPrice, fullDistance: Math.round(full / 1000) };
+            const res = await busRouteService.update(id as string, data);
+            if (res.code !== 200) {
+              console.log("cập nhật tuyến không thành công", res)
+              toast.error("Có lỗi xảy ra!");
+              return;
+            }
+            isFirstUpdate = false;
         }
+
         return newDetails; 
       }
       

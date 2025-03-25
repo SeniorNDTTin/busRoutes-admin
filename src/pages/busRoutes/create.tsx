@@ -227,7 +227,7 @@ const handleSubmit = async () => {
           toast.info("Vui lòng chờ giây lát !!", {
             autoClose: 1500, 
           });
-          
+          let isFirstUpdate = true;
           const createBusRouteDetails = async (stops : string[], directionId : string)  =>{
             const stopList = await Promise.all(
                   stops.map(async (id: string) => {
@@ -255,12 +255,20 @@ const handleSubmit = async () => {
                 full += distancePre
             }
 
-            const updateBusRoute = (await busRouteService.update(res.data._id,{fullDistance : Math.round(full / 1000)}))
-            if (updateBusRoute.code !== 200) {
-              console.log("cập nhật tuyến không thành công", updateBusRoute)
-              toast.error("Có lỗi xảy ra!");
-              return;
+            if (isFirstUpdate) {
+              const updateBusRoute = (await busRouteService.update(res.data._id,{fullDistance : Math.round(full / 1000)}))
+                if (updateBusRoute.code !== 200) {
+                    console.log("cập nhật tuyến không thành công", updateBusRoute)
+                    toast.error("Có lỗi xảy ra!");
+                    return;
+              }
+              isFirstUpdate = false;
             }
+            // const updateBusRoute = (await busRouteService.update(res.data._id,{fullDistance : Math.round(full / 1000)}))
+            // if (updateBusRoute.code !== 200) {
+            //   console.log("cập nhật tuyến không thành công", updateBusRoute)
+            //   toast.error("Có lỗi xảy ra!");
+            //   return;
           }
 
           if (selectedValues.length > 1) {
