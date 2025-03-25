@@ -1,0 +1,43 @@
+.home {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 1rem;
+
+    .wrapper {
+        width: 100%;
+        height: 85vh;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+
+        .map {
+            width: 95%;
+            height: 100%;
+        }
+    }
+}
+
+.input-group {
+    display: flex;
+    gap: 80px;
+
+    > * {
+        width: 350px;;
+    }
+}
+
+.select-group {
+    margin: 20px 0 60px 0;
+    display: flex;
+    gap: 16px;
+    width: 100%;
+  
+    > * {
+      flex: 1;
+    }
+  }
+  
